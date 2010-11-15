@@ -2,7 +2,7 @@
 
 <div id="plugin-reviews" class="activity">
 	<?php if ( bpgr_is_group_reviews() && !bpgr_has_written_review() && is_user_logged_in() ) : ?>
-		<?php include( BP_GROUP_REVIEWS_DIR . 'templates/post.php' ) ?>
+		<?php include( apply_filters( 'bpgr_post_template', BP_GROUP_REVIEWS_DIR . 'templates/post.php' ) ) ?>
 	<?php endif; ?>
 
 	<?php
@@ -27,7 +27,7 @@
 
 			<?php while ( bp_activities() ) : bp_the_activity(); ?>
 
-				<?php include( BP_GROUP_REVIEWS_DIR . 'templates/entry.php' ) ?>
+				<?php include( apply_filters( 'bpgr_entry_template', BP_GROUP_REVIEWS_DIR . 'templates/entry.php' ) ) ?>
 
 			<?php endwhile; ?>
 

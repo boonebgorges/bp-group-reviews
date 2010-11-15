@@ -50,7 +50,7 @@ class bpgr_Plugin_Group_Reviews extends BP_Group_Extension {
 	function display() {
 		global $bp;
 
-		include( BP_GROUP_REVIEWS_DIR . 'templates/index.php' );
+		include( apply_filters( 'bpgr_index_template', BP_GROUP_REVIEWS_DIR . 'templates/index.php' ) );
 	}
 	
 	function post_review( $args = '' ) {
