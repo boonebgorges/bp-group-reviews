@@ -1,0 +1,8 @@
+div.star-holder {
+	position: relative;
+}
+
+div.star-holder div.star {
+	float: left;
+	width: 16px;
+}

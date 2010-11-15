@@ -1,5 +1,39 @@
 <?php
 
+
+function bpgr_render_review() {
+	// Rendering the full span so you can avoid editing your group-header.php template
+	// If you don't like it you can call bpgr_review_html() yourself :)
+	
+	?>
+	<div class="review">
+	<span class="rating"><?php echo bpgr_review_html() ?></span>
+	</div>
+	<?php
+}
+add_action( 'bp_group_header_meta', 'bpgr_render_review' );
+
+function bpgr_review_html() {
+	global $bp;
+	
+	return bpgr_get_plugin_rating_html( $bp->groups->current_group->rating_score, $bp->groups->current_group->rating_number );
+}
+
+
+function bpgr_get_group_rating( $group_id = false ) {
+	global $bp, $groups_template;
+	
+	if ( empty( $group_id ) )
+		$group_id = $bp->groups->current_group->id;
+		
+	if ( empty( $group_id ) )
+		$group_id = $groups_template->group->id;
+	
+	if ( empty( $group_id ) )
+		return false;
+
+}
+
 function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 	global $bp;
 
@@ -9,16 +43,16 @@ function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 		$rating_html = '
 		<div class="star-holder" title="' . sprintf(_n('(based on %s rating)', '(based on %s ratings)', $num_ratings), number_format_i18n($num_ratings)) . '">';
 
-		$star1 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('1 stars') . '" />';
+		$star1 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('1 star') . '" />';
 		$star2 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('2 stars') . '" />';
 		$star3 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('3 stars') . '" />';
 		$star4 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('4 stars') . '" />';
 		$star5 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('5 stars') . '" />';
 
 		if ( $rating <= 7 )
-			$star1 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('1 stars') . '" />';
+			$star1 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('1 star') . '" />';
 		else if ( $rating >= 20 )
-			$star1 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('1 stars') . '" />';
+			$star1 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('1 star') . '" />';
 
 		if ( $rating > 20 && $rating <= 27 )
 			$star2 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('2 stars') . '" />';
@@ -40,11 +74,11 @@ function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 		else if ( $rating >= 93 )
 			$star5 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('5 stars') . '" />';
 
-		$rating_html .= '<div class="star star5">' . $star5 . '</div>';
-		$rating_html .= '<div class="star star4">' . $star4 . '</div>';
-		$rating_html .= '<div class="star star3">' . $star3 . '</div>';
-		$rating_html .= '<div class="star star2">' . $star2 . '</div>';
 		$rating_html .= '<div class="star star1">' . $star1 . '</div>';
+		$rating_html .= '<div class="star star2">' . $star2 . '</div>';
+		$rating_html .= '<div class="star star3">' . $star3 . '</div>';
+		$rating_html .= '<div class="star star4">' . $star4 . '</div>';
+		$rating_html .= '<div class="star star5">' . $star5 . '</div>';
 
 		$rating_html .= '<span class="rating-num">' . sprintf(_n('(based on %s rating)', '(based on %s ratings)', $num_ratings), number_format_i18n($num_ratings)) . '</span></div>';
 	}

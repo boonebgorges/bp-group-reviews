@@ -20,22 +20,8 @@ if ( !defined( 'BP_GROUP_REVIEWS_URL' ) )
 function bpgr_loader() {
 	require_once( dirname(__FILE__) . '/bp-group-reviews.php' );
 }
-add_action( 'bp_loaded', 'bpgr_loader' );
+add_action( 'bp_include', 'bpgr_loader' );
 
 
-function bpgr_setup_globals() {
-	global $bp;
-
-	$image_types = array(
-		'star',
-		'star_half',
-		'star_off'
-	);
-	
-	foreach( $image_types as $image_type ) {
-		$bp->group_reviews->images[$image_type] = apply_filters( "bpgr-$image_type", BP_GROUP_REVIEWS_URL . 'images/' . $image_type . '.png' );
-	}
-}
-add_action( 'bp_setup_globals', 'bpgr_setup_globals' );
 
 ?>
