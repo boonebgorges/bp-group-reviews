@@ -37,8 +37,6 @@ class bpgr_Plugin_Group_Reviews extends BP_Group_Extension {
 
 					if ( (int)$_POST['rating'] > 5 )
 						$_POST['rating'] = 5;
-
-					bp_activity_update_meta( $rating_id, 'rating', $_POST['rating'] );
 				} else
 					bp_core_add_message( "There was a problem posting your review, please try again.", 'error' );
 
@@ -90,9 +88,58 @@ class bpgr_Plugin_Group_Reviews extends BP_Group_Extension {
 			'item_id' => $group_id
 		) );
 	
+		$this->add_rating( array( 'score' => $rating, 'activity_id' => $activity_id, 'group_id' => $group_id ) );
+	
 		groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 	
 		return $activity_id;
+	}
+	
+	function add_rating( $args = '' ) {
+		global $bp;
+	
+		$defaults = array(
+			'group_id' => $bp->groups->current_group->id,
+			'score' => false,
+			'user_id' => $bp->loggedin_user->id,
+			'activity_id' => false
+		);
+		
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		if ( empty( $score ) )
+			return false;
+		
+		// First record the activity meta for this particular rating
+		bp_activity_update_meta( $activity_id, 'bpgr_rating', $score );
+		
+		// Then add this item to the list of reviews for this group
+		if ( !$ratings = groups_get_groupmeta( $group_id, 'bpgr_ratings' ) )
+			$ratings = array();
+		
+		$ratings[$activity_id] = $score;
+		
+		// Pull the composite scores and recalculate
+		if ( !$rating = groups_get_groupmeta( $group_id, 'bpgr_rating' ) ) {
+			$rating = array();
+			$raw_score = 0;
+			$number = 0;
+			$avg_score = 0;
+		} else {
+			extract( $rating );		
+		}
+		//print_r($bp); print_r($rating);
+		$rating['raw_score'] = $raw_score + $score;
+		$rating['number'] = (int)$number + 1;
+		$rating['avg_score'] = (int)$rating['raw_score'] / (int)$rating['number'];
+		
+		//print_r($rating); die();
+		
+		groups_update_groupmeta( $group_id, 'bpgr_rating', $rating );
+			
+		groups_update_groupmeta( $group_id, 'bpgr_ratings', $ratings );
+		
 	}
 }
 bp_register_group_extension( 'bpgr_Plugin_Group_Reviews' );

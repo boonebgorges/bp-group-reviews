@@ -6,17 +6,16 @@ function bpgr_render_review() {
 	// If you don't like it you can call bpgr_review_html() yourself :)
 	
 	?>
-	<div class="review">
 	<span class="rating"><?php echo bpgr_review_html() ?></span>
-	</div>
 	<?php
 }
 add_action( 'bp_group_header_meta', 'bpgr_render_review' );
 
 function bpgr_review_html() {
 	global $bp;
+	print_r($bp->groups->current_group);
 	
-	return bpgr_get_plugin_rating_html( $bp->groups->current_group->rating_score, $bp->groups->current_group->rating_number );
+	return bpgr_get_plugin_rating_html( $bp->groups->current_group->rating_avg_score, $bp->groups->current_group->rating_number );
 }
 
 
@@ -49,29 +48,29 @@ function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 		$star4 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('4 stars') . '" />';
 		$star5 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('5 stars') . '" />';
 
-		if ( $rating <= 7 )
+		if ( $rating <= .5 )
 			$star1 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('1 star') . '" />';
-		else if ( $rating >= 20 )
+		else if ( $rating > .5  )
 			$star1 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('1 star') . '" />';
 
-		if ( $rating > 20 && $rating <= 27 )
+		if ( $rating > 1.25 && $rating <= 1.75 )
 			$star2 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('2 stars') . '" />';
-		else if ( $rating >= 40 )
+		else if ( $rating > 1.75 )
 			$star2 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('2 stars') . '" />';
 
-		if ( $rating > 40 && $rating <= 47 )
+		if ( $rating > 2.25 && $rating <= 2.75 )
 			$star3 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('3 stars') . '" />';
-		else if ( $rating >= 60 )
+		else if ( $rating > 2.75 )
 			$star3 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('3 stars') . '" />';
 
-		if ( $rating > 60 && $rating <= 67 )
+		if ( $rating > 3.25 && $rating <= 3.75 )
 			$star4 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('4 stars') . '" />';
-		else if ( $rating >= 80 )
+		else if ( $rating > 3.75 )
 			$star4 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('4 stars') . '" />';
 
-		if ( $rating > 80 && $rating <= 87 )
+		if ( $rating > 4.25 && $rating <= 4.6 )
 			$star5 = '<img src="' . bpgr_get_star_half_img() . '" alt="' . __('5 stars') . '" />';
-		else if ( $rating >= 93 )
+		else if ( $rating > 4.6 )
 			$star5 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('5 stars') . '" />';
 
 		$rating_html .= '<div class="star star1">' . $star1 . '</div>';

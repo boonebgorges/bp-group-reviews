@@ -58,11 +58,11 @@ class BP_Group_Reviews {
 			
 		if ( isset( $bp->groups->current_group->id ) ) {
 			$rating = groups_get_groupmeta( $bp->groups->current_group->id, 'bpgr_rating' );
-			$rating = array( 'score' => '30', 'number' => '40' );
 			
 			if ( !empty( $rating ) ) {
-				$bp->groups->current_group->rating_score = $rating['score'];
+				$bp->groups->current_group->rating_avg_score = $rating['avg_score'];
 				$bp->groups->current_group->rating_number = $rating['number'];
+				$bp->groups->current_group->rating_raw_score = $rating['raw_score'];
 			}	
 		}
 	}
