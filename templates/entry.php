@@ -2,7 +2,7 @@
 
 <?php do_action( 'bp_before_activity_entry' ) ?>
 
-<li class="<?php if ( bporg_is_group_reviews() ) : bp_activity_css_class(); endif; ?>" id="activity-<?php bp_activity_id() ?>">
+<li class="<?php if ( bpgr_is_group_reviews() ) : bp_activity_css_class(); endif; ?>" id="activity-<?php bp_activity_id() ?>">
 	<div class="activity-avatar">
 		<a href="<?php bp_activity_user_link() ?>">
 			<?php bp_activity_avatar( 'type=thumb&width=30&height=30' ) ?>
@@ -12,7 +12,7 @@
 	<div class="activity-content">
 
 		<div class="activity-header">
-			<?php echo bporg_get_review_rating_html( bp_activity_get_meta( bp_get_activity_id(), 'rating' ) ) ?> By <?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> (<?php echo bp_core_time_since( bp_get_activity_date_recorded() ) ?> ago) <a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/p/' . bp_get_activity_id() . '/' ) ?>">#</a>
+			<?php echo bpgr_get_review_rating_html( bp_activity_get_meta( bp_get_activity_id(), 'rating' ) ) ?> By <?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> (<?php echo bp_core_time_since( bp_get_activity_date_recorded() ) ?> ago) <a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/p/' . bp_get_activity_id() . '/' ) ?>">#</a>
 		</div>
 
 		<?php if ( bp_activity_has_content() ) : ?>
@@ -24,7 +24,7 @@
 		<?php do_action( 'bp_activity_entry_content' ) ?>
 
 		<div class="activity-meta">
-			<?php if ( is_user_logged_in() && bp_activity_can_comment() && bporg_is_group_reviews() ) : ?>
+			<?php if ( is_user_logged_in() && bp_activity_can_comment() && bpgr_is_group_reviews() ) : ?>
 				<a href="<?php bp_activity_comment_link() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<span><?php bp_activity_comment_count() ?></span>)</a>
 			<?php endif; ?>
 
@@ -34,7 +34,7 @@
 
 	<?php do_action( 'bp_before_activity_entry_comments' ) ?>
 
-	<?php if ( bp_activity_can_comment() && bporg_is_group_reviews() ) : ?>
+	<?php if ( bp_activity_can_comment() && bpgr_is_group_reviews() ) : ?>
 		<div class="activity-comments">
 			<?php bp_activity_comments() ?>
 

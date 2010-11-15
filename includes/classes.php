@@ -1,8 +1,8 @@
 <?php
 
-class BPOrg_Plugin_Group_Reviews extends BP_Group_Extension {
+class bpgr_Plugin_Group_Reviews extends BP_Group_Extension {
 
-	function bporg_plugin_group_reviews() {
+	function bpgr_plugin_group_reviews() {
 		global $bp;
 		
 		$this->group_id = BP_Groups_Group::group_exists($bp->current_item);
@@ -77,8 +77,8 @@ class BPOrg_Plugin_Group_Reviews extends BP_Group_Extension {
 		$activity_action = sprintf( __( '%s reviewed the plugin %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 	
 		$rating_content = false;
-		/*if ( !empty( $rating ) )
-			$rating_content = '<span class="p-rating">' . bporg_get_review_rating_html( $rating ) . '</span>';*/
+		if ( !empty( $rating ) )
+			$rating_content = '<span class="p-rating">' . bpgr_get_review_rating_html( $rating ) . '</span>';
 	
 		$activity_content = $rating_content . $content;
 	
@@ -95,6 +95,6 @@ class BPOrg_Plugin_Group_Reviews extends BP_Group_Extension {
 		return $activity_id;
 	}
 }
-bp_register_group_extension( 'BPOrg_Plugin_Group_Reviews' );
+bp_register_group_extension( 'bpgr_Plugin_Group_Reviews' );
 
 ?>

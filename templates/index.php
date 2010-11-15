@@ -1,12 +1,12 @@
 <?php do_action( 'bp_before_reviews' ) ?>
 
 <div id="plugin-reviews" class="activity">
-	<?php if ( bporg_is_group_reviews() && !bporg_has_written_review() && is_user_logged_in() ) : ?>
+	<?php if ( bpgr_is_group_reviews() && !bpgr_has_written_review() && is_user_logged_in() ) : ?>
 		<?php include( BP_GROUP_REVIEWS_DIR . 'templates/post.php' ) ?>
 	<?php endif; ?>
 
 	<?php
-		if ( bporg_is_group_reviews() ) {
+		if ( bpgr_is_group_reviews() ) {
 			$per_page = 15; $max = false;
 		} else {
 			$per_page = 8; $max = 8;
@@ -16,7 +16,7 @@
 	<h3 class="widgettitle">Reviews</h3>
 	<?php if ( bp_has_activities( 'action=review&per_page=' . $per_page . '&max=' . $max ) ) : ?>
 
-		<?php if ( bporg_is_group_reviews()  ) : ?>
+		<?php if ( bpgr_is_group_reviews()  ) : ?>
 			<div class="pagination no-ajax">
 				<div class="pag-count"><?php echo str_replace( 'item', 'review', bp_get_activity_pagination_count() ) ?></div>
 				<div class="pagination-links"><?php bp_activity_pagination_links() ?></div>

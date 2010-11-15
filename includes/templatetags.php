@@ -1,6 +1,6 @@
 <?php
 
-function bporg_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
+function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 	global $bp;
 
 	$rating_html = false;
@@ -52,7 +52,7 @@ function bporg_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 	return $rating_html;
 }
 
-function bporg_get_review_rating_html( $rating ) {
+function bpgr_get_review_rating_html( $rating ) {
 	global $bp;
 
 	$star1 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('1 stars') . '" />';
@@ -79,13 +79,13 @@ function bporg_get_review_rating_html( $rating ) {
 	return '<span class="rating">' . $star1 . $star2 . $star3 . $star4 . $star5 . '</span>';
 }
 
-function bporg_is_group_reviews() {
+function bpgr_is_group_reviews() {
 	global $bp;
 
 	return ( !empty( $bp->groups->current_group ) && $bp->current_component == BP_GROUPS_SLUG && $bp->current_action == BP_GROUP_REVIEWS_SLUG );
 }
 
-function bporg_has_written_review() {
+function bpgr_has_written_review() {
 	global $bp;
 
 	return false;
