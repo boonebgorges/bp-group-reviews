@@ -18,13 +18,15 @@ class BP_Group_Reviews {
 	}
 	
 	function load_js() {
+		global $bp;
+		
 		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js' );
 		wp_enqueue_script( 'bp-group-reviews' );	
 		
 		$params = array(
-			'star' => $bp->group_reviews->images['star'],
-			'star_half' => $bp->group_reviews->images['star_half'],
-			'star_off' => $bp->group_reviews->images['star_off']
+			'star' => bpgr_get_star_img(),
+			'star_half' => bpgr_get_star_half_img(),
+			'star_off' => bpgr_get_star_off_img()
 		);
 		wp_localize_script( 'bp-group-reviews', 'bpgr', $params );	
 	}	
