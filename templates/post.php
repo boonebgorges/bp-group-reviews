@@ -1,0 +1,40 @@
+<form action="" method="post" id="whats-new-form" name="whats-new-form" class="review-form">
+
+	<?php do_action( 'bp_before_activity_post_form' ) ?>
+
+	<div id="whats-new-avatar">
+		<a href="<?php echo bp_loggedin_user_domain() ?>">
+			<?php bp_loggedin_user_avatar( 'width=60&height=60' ) ?>
+		</a>
+	</div>
+
+	<h5>What are your thoughts on the <?php bp_group_name() ?> plugin, <?php bp_user_firstname() ?>?</h5>
+
+	<div id="whats-new-content">
+		<div id="whats-new-textarea">
+			<div>
+				<textarea name="review_content" id="review_content" value="" /><?php if ( isset( $_POST['review_content'] ) ) : ?><?php echo esc_html( $_POST['review_content'] ) ?> <?php endif; ?></textarea>
+			</div>
+		</div>
+
+		<div id="review-rating">
+			Rate it: <img id="star1" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('1 stars') ?>" /><img id="star2" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('2 stars') ?>" /><img id="star3" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('3 stars') ?>" /><img id="star4" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('4 stars') ?>" /><img id="star5" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('5 stars') ?>" />
+		</div>
+
+		<div id="whats-new-options">
+			<div id="whats-new-submit">
+				<span class="ajax-loader"></span> &nbsp;
+				<input type="submit" name="review_submit" id="whats-new-submit" value="<?php _e( 'Post My Review', 'buddypress' ) ?>" />
+			</div>
+
+			<?php do_action( 'bp_activity_post_form_options' ) ?>
+
+		</div><!-- #whats-new-options -->
+	</div><!-- #whats-new-content -->
+
+	<input type="hidden" name="rating" id="rating" value="0" />
+
+	<?php wp_nonce_field( 'review_submit' ); ?>
+	<?php do_action( 'bp_after_activity_post_form' ) ?>
+	
+</form><!-- #whats-new-form -->
