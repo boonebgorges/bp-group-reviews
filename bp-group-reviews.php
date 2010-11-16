@@ -13,7 +13,10 @@ class BP_Group_Reviews {
 		add_action( 'bp_setup_globals', array( $this, 'setup_globals' ) );
 		add_action( 'groups_setup_nav', array( $this, 'setup_current_group_globals' ) );
 		add_action( 'wp_print_scripts', array( $this, 'load_js' ) );
+		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );		
 		add_action( 'wp_print_styles', array( $this, 'load_styles' ) );
+		add_action( 'wp', array( $this, 'grab_cookie' ) );
+		
 	}
 	
 	function includes() {
@@ -31,6 +34,18 @@ class BP_Group_Reviews {
 			'star_off' => bpgr_get_star_off_img()
 		);
 		wp_localize_script( 'bp-group-reviews', 'bpgr', $params );	
+	}
+	
+	function maybe_previous_data() {
+		if ( bpgr_has_previous_data() ) {
+		?>
+			<script type="text/javascript">
+				jQuery(document).ready( function() {
+					jQuery("#review-post-form").css('display','block');
+				});
+			</script>
+		<?php
+		}
 	}
 	
 	function load_styles() {
@@ -65,6 +80,15 @@ class BP_Group_Reviews {
 				$bp->groups->current_group->rating_raw_score = $rating['raw_score'];
 			}	
 		}
+	}
+	
+	function grab_cookie() {
+		global $bp;
+		
+		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) )
+			$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
+		
+		@setcookie( 'bpgr-data', false, time() - 1000, COOKIEPATH );
 	}
 }
 

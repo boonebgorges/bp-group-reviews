@@ -15,10 +15,17 @@ class bpgr_Plugin_Group_Reviews extends BP_Group_Extension {
 		$this->enable_nav_item = true;
 		$this->enable_edit_item = false;
 
-		if ( isset( $_POST['review_submit'] ) && (int)$_POST['rating'] ) {
+		if ( isset( $_POST['review_submit'] ) ) {
 			check_admin_referer( 'review_submit' );
 
+			$has_posted = '';
+			
 			if ( empty( $_POST['review_content'] ) || !(int)$_POST['rating'] ) {
+				// Something has gone wrong. Save the user's submitted data to reinsert into the post box after redirect
+				$cookie_data = array( 'review_content' => $_POST['review_content'], 'rating' => $_POST['rating'] );				
+				$cookie = base64_encode( serialize( $cookie_data ) );
+				@setcookie( 'bpgr-data', $cookie, time()+60*60*24, COOKIEPATH );
+				
 				bp_core_add_message( "Please make sure you fill in the review, and don't forget to rate the plugin!", 'error' );
 			} else {
 				/* Auto join this user if they are not yet a member of this group */
@@ -37,11 +44,12 @@ class bpgr_Plugin_Group_Reviews extends BP_Group_Extension {
 
 					if ( (int)$_POST['rating'] > 5 )
 						$_POST['rating'] = 5;
-				} else
+				} else {
 					bp_core_add_message( "There was a problem posting your review, please try again.", 'error' );
-
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . $this->slug );
+				}
 			}
+		
+			bp_core_redirect( apply_filters( 'bpgr_after_post_redirect', bp_get_group_permalink( $bp->groups->current_group ) . $this->slug, $has_posted ) );
 		}
 	}
 

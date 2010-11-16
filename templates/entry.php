@@ -12,7 +12,7 @@
 	<div class="activity-content">
 
 		<div class="activity-header">
-			<?php echo bpgr_get_review_rating_html( bp_activity_get_meta( bp_get_activity_id(), 'rating' ) ) ?> By <?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> (<?php echo bp_core_time_since( bp_get_activity_date_recorded() ) ?> ago) <a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/p/' . bp_get_activity_id() . '/' ) ?>">#</a>
+			<?php echo bpgr_get_review_rating_html( bp_activity_get_meta( bp_get_activity_id(), 'bpgr_rating' ) ) ?> By <?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> (<?php echo bp_core_time_since( bp_get_activity_date_recorded() ) ?> ago) <a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/p/' . bp_get_activity_id() . '/' ) ?>">#</a>
 		</div>
 
 		<?php if ( bp_activity_has_content() ) : ?>

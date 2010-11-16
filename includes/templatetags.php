@@ -13,7 +13,6 @@ add_action( 'bp_group_header_meta', 'bpgr_render_review' );
 
 function bpgr_review_html() {
 	global $bp;
-	print_r($bp->groups->current_group);
 	
 	return bpgr_get_plugin_rating_html( $bp->groups->current_group->rating_avg_score, $bp->groups->current_group->rating_number );
 }
@@ -154,6 +153,34 @@ function bpgr_star_off_img() {
 		global $bp;
 		
 		return apply_filters( 'bpgr_star_off_img', $bp->group_reviews->images['star_off'] );
+	}
+
+function bpgr_has_previous_data() {
+	global $bp;
+	
+	if ( !empty( $bp->group_reviews->previous_data ) )
+		return true;
+	
+	return false;
+}
+
+function bpgr_previous_review() {
+	echo bpgr_get_previous_review();
+}
+	function bpgr_get_previous_review() {
+		global $bp;
+		
+		return apply_filters( 'bpgr_previous_review', $bp->group_reviews->previous_data['review_content'] );
+	}
+
+
+function bpgr_previous_rating() {
+	echo bpgr_get_previous_rating();
+}
+	function bpgr_get_previous_rating() {
+		global $bp;
+		
+		return apply_filters( 'bpgr_previous_rating', $bp->group_reviews->previous_data['rating'] );
 	}
 
 ?>
