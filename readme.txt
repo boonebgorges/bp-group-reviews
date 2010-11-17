@@ -6,7 +6,7 @@ Requires at least: WP 3.0, BP 1.2.5
 Tested up to: WP 3.0.1, BP 1.2.7
 Stable tag: 1.0
 
-Adds a review/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
+Adds a reviews/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 
 == Description ==
 
