@@ -3,7 +3,7 @@
 Plugin Name: BP Group Reviews
 Author: boonebgorges
 Author URL: http://boonebgorges.com
-Description: Adds a review/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
+Description: Adds a review/rating section to BuddyPress groups. As seen on buddypress.org/extend/plugins
 Version: 1.0
 */
 
@@ -22,6 +22,23 @@ function bpgr_loader() {
 }
 add_action( 'bp_include', 'bpgr_loader' );
 
+
+function bpgr_textdomain() {
+	$locale = get_locale();
+
+	// First look in wp-content/languages, where custom language files will not be overwritten by upgrades. Then check the packaged language file directory.
+	$mofile_custom = WP_CONTENT_DIR . "/languages/bpgr-$locale.mo";
+	$mofile_packaged = BP_GROUP_REVIEWS_DIR . "languages/bpgr-$locale.mo";
+	
+	if ( file_exists( $mofile_custom ) ) {
+		load_textdomain( 'bpgr', $mofile_custom );
+		return;
+	} else if ( file_exists( $mofile_packaged ) ) {
+		load_textdomain( 'bpgr', $mofile_packaged );
+		return;
+	}
+}
+add_action ('plugins_loaded', 'bpgr_textdomain');
 
 
 ?>

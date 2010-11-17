@@ -24,6 +24,7 @@ class BP_Group_Reviews {
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
 	}
 	
+	
 	function load_js() {
 		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js' );
 		wp_enqueue_script( 'bp-group-reviews' );	

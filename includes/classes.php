@@ -7,8 +7,8 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		
 		$this->group_id = BP_Groups_Group::group_exists($bp->current_item);
 		
-		$this->name = __( 'Reviews', 'bp-group-reviews' );
-		$this->slug = BP_GROUP_REVIEWS_SLUG;
+		$this->name = __( 'Reviews', 'bpgr' );
+		$this->slug = $bp->group_reviews->slug;
 		
 		$this->nav_item_position = 22;
 		$this->enable_create_step = false;
