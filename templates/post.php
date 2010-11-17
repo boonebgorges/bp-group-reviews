@@ -8,7 +8,7 @@
 		</a>
 	</div>
 
-	<h5>What are your thoughts on the <?php bp_group_name() ?> plugin, <?php bp_user_firstname() ?>?</h5>
+	<h5><?php printf( __( 'What are your thoughts on %s, %s?', 'bpgr'), bp_get_group_name(), bp_get_user_firstname() ) ?></h5>
 
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">

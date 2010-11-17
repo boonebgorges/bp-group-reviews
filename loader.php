@@ -3,7 +3,7 @@
 Plugin Name: BP Group Reviews
 Author: boonebgorges
 Author URL: http://boonebgorges.com
-Description: Use group activity streams as a review section. As seen on the buddypress.org/extend/plugins
+Description: Adds a review/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 Version: 1.0
 */
 

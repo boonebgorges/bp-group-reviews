@@ -3,7 +3,7 @@
 
 function bpgr_render_review() {
 	// Rendering the full span so you can avoid editing your group-header.php template
-	// If you don't like it you can call bpgr_review_html() yourself :)
+	// If you don't like it you can call bpgr_review_html() yourself and unhook this function ;)
 	
 	?>
 	<span class="rating"><?php echo bpgr_review_html() ?></span>
@@ -114,7 +114,7 @@ function bpgr_get_review_rating_html( $rating ) {
 function bpgr_is_group_reviews() {
 	global $bp;
 
-	return ( !empty( $bp->groups->current_group ) && $bp->current_component == BP_GROUPS_SLUG && $bp->current_action == BP_GROUP_REVIEWS_SLUG );
+	return ( !empty( $bp->groups->current_group ) && $bp->current_component == BP_GROUPS_SLUG && $bp->current_action == $bp->group_reviews->slug );
 }
 
 function bpgr_has_written_review() {

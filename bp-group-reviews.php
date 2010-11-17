@@ -57,6 +57,8 @@ class BP_Group_Reviews {
 	function setup_globals() {
 		global $bp;
 	
+		$bp->group_reviews->slug = BP_GROUP_REVIEWS_SLUG;
+	
 		$image_types = array(
 			'star',
 			'star_half',

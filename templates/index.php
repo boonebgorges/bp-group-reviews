@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_reviews' ) ?>
 
-<div id="plugin-reviews" class="activity">
+<div id="group-reviews" class="activity">
 	<?php if ( bpgr_is_group_reviews() && !bpgr_has_written_review() && is_user_logged_in() ) : ?>
 		<?php include( apply_filters( 'bpgr_post_template', BP_GROUP_REVIEWS_DIR . 'templates/post.php' ) ) ?>
 	<?php endif; ?>
@@ -36,7 +36,7 @@
 	<?php else : ?>
 
 		<div id="message" class="info">
-			<p>There aren't any reviews for this plugin yet, why not <a href="<?php bp_group_permalink() ?>reviews/write/">be the first</a>?</p>
+			<p><?php printf( __( "There are no reviews yet. Why not <a href=\"%s\">be the first to write one</a>?", 'bpgr' ), bp_get_group_permalink() . $bp->group_reviews->slug . '/write/' ) ?></p>
 		</div>
 
 	<?php endif; ?>
