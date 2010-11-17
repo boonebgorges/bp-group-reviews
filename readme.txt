@@ -1,4 +1,4 @@
-=== BP Lotsa Feeds ===
+=== BP Group Reviews ===
 Contributors: boonebgorges, apeatling 
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, group, groups, review, rating, star
