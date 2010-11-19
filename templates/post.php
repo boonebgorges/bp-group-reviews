@@ -18,13 +18,13 @@
 		</div>
 
 		<div id="review-rating">
-			Rate it: <img id="star1" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('1 stars') ?>" /><img id="star2" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('2 stars') ?>" /><img id="star3" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('3 stars') ?>" /><img id="star4" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('4 stars') ?>" /><img id="star5" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('5 stars') ?>" />
+			<?php _e( 'Rate it:', 'bpgr' ) ?> <img id="star1" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('1 stars') ?>" /><img id="star2" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('2 stars') ?>" /><img id="star3" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('3 stars') ?>" /><img id="star4" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('4 stars') ?>" /><img id="star5" class="star" src="<?php bpgr_star_off_img() . '" alt="' . __('5 stars') ?>" />
 		</div>
 
 		<div id="whats-new-options">
 			<div id="whats-new-submit">
 				<span class="ajax-loader"></span> &nbsp;
-				<input type="submit" name="review_submit" id="whats-new-submit" value="<?php _e( 'Post My Review', 'buddypress' ) ?>" />
+				<input type="submit" name="review_submit" id="whats-new-submit" value="<?php _e( 'Post My Review', 'bpgr' ) ?>" />
 			</div>
 
 			<?php do_action( 'bp_activity_post_form_options' ) ?>
