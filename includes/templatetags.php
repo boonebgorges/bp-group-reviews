@@ -182,5 +182,17 @@ function bpgr_previous_rating() {
 		
 		return apply_filters( 'bpgr_previous_rating', $bp->group_reviews->previous_data['rating'] );
 	}
+	
+function bpgr_get_review_rating( $review_id = false ) {
+	global $activities_template;
+		
+	if ( !$review_id ) {
+		$rating = $activities_template->activity->rating;	
+	} else {
+		$rating = bp_activity_get_meta( $review_id, 'bpgr_rating' );	
+	}
+	
+	return apply_filters( 'bpgr_review_rating', $rating, $review_id );
+}
 
 ?>
