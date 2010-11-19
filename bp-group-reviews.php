@@ -16,6 +16,7 @@ class BP_Group_Reviews {
 		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );		
 		add_action( 'wp_print_styles', array( $this, 'load_styles' ) );
 		add_action( 'wp', array( $this, 'grab_cookie' ) );
+		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
 		
 	}
 	
@@ -92,6 +93,48 @@ class BP_Group_Reviews {
 			$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
 		
 		@setcookie( 'bpgr-data', false, time() - 1000, COOKIEPATH );
+	}
+	
+	/**
+	 * Fetch review data when the activity stream is called. Done in one fell swoop to minimize
+	 * database queries. Todo: remove if an extras parameter is added to bp_has_activities()
+	 * in BP core
+	 *
+	 * @package BP Group Reviews
+	 * @uses $activities_template The global activity stream object
+	 * @param bool $has_activities Must be returned in order for content to render
+	 * @return bool $has_activities
+	 */
+	function activities_template_data( $has_activities ) {
+		global $activities_template, $wpdb, $bp;
+		
+		$activity_ids = array();
+		foreach( $activities_template->activities as $activity ) {
+			$activity_ids[] = $activity->id;
+		}
+		$activity_ids = implode( ',', $activity_ids );
+		
+		$sql = apply_filters( 'bpgr_activities_data_sql', $wpdb->prepare( "SELECT activity_id, meta_value AS rating FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids}) AND meta_key = 'bpgr_rating'" ) );
+		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
+		
+		// Arrange the results in a properly-keyed array
+		$ratings = array();
+		foreach( $ratings_raw as $rating ) {
+			$id = $rating['activity_id'];
+			$ratings[$id] = $rating['rating'];
+		}
+				
+		
+		foreach( $activities_template->activities as $key => $activity ) {
+			if ( $activity->type != 'review' )
+				continue;
+			
+			$id = $activity->id;
+			
+			$activities_template->activities[$key]->rating = $ratings[$id];			
+		}
+		
+		return $has_activities;
 	}
 }
 
