@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-group-reviews\n"
-"POT-Creation-Date: 2010-11-17 16:03+0000\n"
+"POT-Creation-Date: 2010-11-19 15:30+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,6 +73,20 @@ msgstr ""
 msgid "1 stars"
 msgstr ""
 
+#: templates/entry.php:15
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: templates/entry.php:15
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: templates/entry.php:15
+msgid "#"
+msgstr ""
+
 #: templates/entry.php:28
 msgid "Comment"
 msgstr ""
@@ -95,6 +109,10 @@ msgstr ""
 #: templates/post.php:11
 #, php-format
 msgid "What are your thoughts on %s, %s?"
+msgstr ""
+
+#: templates/post.php:21
+msgid "Rate it:"
 msgstr ""
 
 #: templates/post.php:27
