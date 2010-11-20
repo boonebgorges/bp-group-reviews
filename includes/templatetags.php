@@ -87,26 +87,26 @@ function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 function bpgr_get_review_rating_html( $rating ) {
 	global $bp;
 
-	$star1 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('1 stars') . '" />';
-	$star2 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('2 stars') . '" />';
-	$star3 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('3 stars') . '" />';
-	$star4 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('4 stars') . '" />';
-	$star5 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __('5 stars') . '" />';
+	$star1 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '1 star', 'bpgr' ) . '" />';
+	$star2 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '2 stars', 'bpgr' ) . '" />';
+	$star3 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '3 stars', 'bpgr' ) . '" />';
+	$star4 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '4 stars', 'bpgr' ) . '" />';
+	$star5 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '5 stars', 'bpgr' ) . '" />';
 
 	if ( $rating >= 1 )
-		$star1 = '<img src="' .bpgr_get_star_img() . '" alt="' . __('1 stars') . '" />';
+		$star1 = '<img src="' .bpgr_get_star_img() . '" alt="' . __( '1 star', 'bpgr' ) . '" />';
 
 	if ( $rating >= 2 )
-		$star2 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('2 stars') . '" />';
+		$star2 = '<img src="' . bpgr_get_star_img() . '" alt="' . __( '2 stars', 'bpgr' ) . '" />';
 
 	if ( $rating >= 3 )
-		$star3 = '<img src="' .bpgr_get_star_img() . '" alt="' . __('3 stars') . '" />';
+		$star3 = '<img src="' .bpgr_get_star_img() . '" alt="' . __( '3 stars', 'bpgr' ) . '" />';
 
 	if ( $rating >= 4 )
-		$star4 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('4 stars') . '" />';
+		$star4 = '<img src="' . bpgr_get_star_img() . '" alt="' . __( '4 stars', 'bpgr' ) . '" />';
 
 	if ( $rating >= 5 )
-		$star5 = '<img src="' . bpgr_get_star_img() . '" alt="' . __('5 stars') . '" />';
+		$star5 = '<img src="' . bpgr_get_star_img() . '" alt="' . __( '5 stars', 'bpgr' ) . '" />';
 
 	return '<span class="rating">' . $star1 . $star2 . $star3 . $star4 . $star5 . '</span>';
 }
