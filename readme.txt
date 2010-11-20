@@ -44,7 +44,7 @@ Let me know and I'll put it in there for you.
 * Loads ratings metadata into the groups loop for better performance
 * Missing gettext calls fixed
 
-= 1.0.1 =
+= 1.0.2 =
 * Missing gettext calls fixed
 * Typo fixed (props Luca Camellini)
 * Italian translation added (props Luca Camellini)
