@@ -31,6 +31,10 @@ Sure can. There's a .pot file in the plugin's languages directory.
 
 Let me know and I'll put it in there for you.
 
+== Translation credits ==
+
+* Italian: Luca Camellini
+
 == Changelog ==
 
 = 1.0 =
