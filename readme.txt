@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, group, groups, review, rating, star
 Requires at least: WP 3.0, BP 1.2.5
 Tested up to: WP 3.0.1, BP 1.2.7
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 Adds a reviews/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 
@@ -43,4 +43,9 @@ Let me know and I'll put it in there for you.
 = 1.0.1 =
 * Loads ratings metadata into the groups loop for better performance
 * Missing gettext calls fixed
+
+= 1.0.1 =
+* Missing gettext calls fixed
+* Typo fixed (props Luca Camellini)
+* Italian translation added (props Luca Camellini)
 
