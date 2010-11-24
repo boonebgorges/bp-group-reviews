@@ -23,6 +23,10 @@ class BP_Group_Reviews {
 	function includes() {
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/classes.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
+		
+		if ( get_option( 'bp_group_reviews_version' ) < BP_GROUP_REVIEWS_VER ) {
+			require_once( BP_GROUP_REVIEWS_DIR . 'includes/upgrade.php' );
+		}
 	}
 	
 	
