@@ -16,17 +16,29 @@ class BP_Group_Reviews_Upgrade {
 			$this->upgrade_1_02();
 		}
 	
-		//update_option( 'bp_group_reviews_version', $this->new_version );
+		update_option( 'bp_group_reviews_version', $this->new_version );
 	}
 	
 	function upgrade_1_02() {
 		global $bp, $wpdb;
-		print_r($bp);
+		
 		$sql = $wpdb->prepare( "SELECT group_id, meta_value FROM {$bp->groups->table_name_groupmeta} WHERE meta_key = 'bpgr_rating'" );
 		
 		$old_ratings = $wpdb->get_results( $sql );
 		
-		print_r($old_ratings);
+		foreach( $old_ratings as $old_rating ) {
+			$group_id = $old_rating->group_id;
+			$rating = maybe_unserialize( $old_rating->meta_value );
+			
+			if ( !empty( $rating['avg_score'] ) ) {
+				groups_update_groupmeta( $group_id, 'bpgr_rating', $rating['avg_score'] ); 
+			}
+			
+			if ( !empty( $rating['number'] ) ) {
+				groups_update_groupmeta( $group_id, 'bpgr_how_many_ratings', $rating['number'] ); 
+			}
+		}
+		
 	}
 }
 

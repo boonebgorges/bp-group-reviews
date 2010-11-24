@@ -8,7 +8,12 @@ class BP_Group_Reviews {
 	}
 	
 	function __construct() {
+		if ( !bp_is_active( 'groups' ) )
+			return false;
+	
 		$this->includes();
+		
+		add_action( 'bp_init', array( $this, 'maybe_update' ) );
 		
 		add_action( 'bp_setup_globals', array( $this, 'setup_globals' ) );
 		add_action( 'groups_setup_nav', array( $this, 'setup_current_group_globals' ) );
@@ -23,12 +28,13 @@ class BP_Group_Reviews {
 	function includes() {
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/classes.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
-		
+	}
+	
+	function maybe_update() {
 		if ( get_option( 'bp_group_reviews_version' ) < BP_GROUP_REVIEWS_VER ) {
 			require_once( BP_GROUP_REVIEWS_DIR . 'includes/upgrade.php' );
 		}
-	}
-	
+	}	
 	
 	function load_js() {
 		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js' );
