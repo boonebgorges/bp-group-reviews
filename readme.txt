@@ -34,18 +34,22 @@ Let me know and I'll put it in there for you.
 == Translation credits ==
 
 * Italian: Luca Camellini
+* Persian: [Alefba](http://alefba.us)
 
 == Changelog ==
 
-= 1.0 =
-* Initial release
-
-= 1.0.1 =
-* Loads ratings metadata into the groups loop for better performance
-* Missing gettext calls fixed
+= 1.0.3 =
+* Persian translation added (props Alefba)
 
 = 1.0.2 =
 * Missing gettext calls fixed
 * Typo fixed (props Luca Camellini)
 * Italian translation added (props Luca Camellini)
+
+= 1.0.1 =
+* Loads ratings metadata into the groups loop for better performance
+* Missing gettext calls fixed
+
+= 1.0 =
+* Initial release
 
