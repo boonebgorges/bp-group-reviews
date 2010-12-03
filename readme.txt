@@ -35,11 +35,13 @@ Let me know and I'll put it in there for you.
 
 * Italian: Luca Camellini
 * Persian: [Alefba](http://alefba.us)
+* Dutch: GooseNL
 
 == Changelog ==
 
 = 1.0.3 =
 * Persian translation added (props Alefba)
+* Dutch translation added (props GooseNL)
 
 = 1.0.2 =
 * Missing gettext calls fixed
