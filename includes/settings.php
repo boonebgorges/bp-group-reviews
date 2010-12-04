@@ -11,7 +11,9 @@ class BPGR_Settings {
 	
 	function __construct() {
 		add_action( 'bp_before_group_settings_admin', array( $this, 'toggle_markup' ) );
+		add_action( 'bp_before_group_settings_creation_step', array( $this, 'toggle_markup' ) );
 		add_action( 'groups_group_settings_edited', array( $this, 'toggle_save' ) );
+		add_action( 'groups_create_group_step_save_group-settings', array( $this, 'toggle_save_during_create' ) );
 	}
 	
 	
@@ -36,6 +38,12 @@ class BPGR_Settings {
 		} else {
 			groups_update_groupmeta( $group_id, 'bpgr_is_reviewable', 'no' );
 		}
+	}
+	
+	function toggle_save_during_create() {
+		global $bp;
+		
+		$this->toggle_save( $bp->groups->new_group_id );
 	}
 }
 
