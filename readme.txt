@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, group, groups, review, rating, star
 Requires at least: WP 3.0, BP 1.2.5
 Tested up to: WP 3.0.1, BP 1.2.7
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Adds a reviews/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 
@@ -19,6 +19,7 @@ Follow the plugin's development at [http://github.com/boonebgorges/bp-group-revi
 == Installation ==
 
 1. Activate the plugin from the plugins screen
+1. Enable reviews on a given group at Admin > Group Settings
 1. That's it
 
 == Frequently Asked Questions ==
@@ -40,6 +41,7 @@ Let me know and I'll put it in there for you.
 == Changelog ==
 
 = 1.0.3 =
+* Reviews can now be enabled on a group-by-group basis (group admin > group settings)
 * Persian translation added (props Alefba)
 * Dutch translation added (props GooseNL)
 
