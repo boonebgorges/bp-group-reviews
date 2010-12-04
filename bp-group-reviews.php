@@ -88,12 +88,14 @@ class BP_Group_Reviews {
 			
 		if ( isset( $bp->groups->current_group->id ) ) {
 			$rating = groups_get_groupmeta( $bp->groups->current_group->id, 'bpgr_rating' );
+			$how_many = groups_get_groupmeta( $bp->groups->current_group->id, 'bpgr_how_many_ratings' );
 			
-			if ( !empty( $rating ) ) {
-				$bp->groups->current_group->rating_avg_score = $rating['avg_score'];
-				$bp->groups->current_group->rating_number = $rating['number'];
-				$bp->groups->current_group->rating_raw_score = $rating['raw_score'];
-			}	
+			if ( !empty( $rating ) )
+				$bp->groups->current_group->rating_avg_score = $rating;
+			
+			if ( !empty( $how_many ) )
+				$bp->groups->current_group->rating_number = $how_many;
+				
 		}
 	}
 	
