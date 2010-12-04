@@ -16,16 +16,17 @@ class BP_Group_Reviews {
 		add_action( 'bp_init', array( $this, 'maybe_update' ) );
 		
 		add_action( 'bp_setup_globals', array( $this, 'setup_globals' ) );
+		add_action( 'groups_setup_globals', array( $this, 'current_group_set_available' ) );
 		add_action( 'groups_setup_nav', array( $this, 'setup_current_group_globals' ) );
 		add_action( 'wp_print_scripts', array( $this, 'load_js' ) );
 		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );		
 		add_action( 'wp_print_styles', array( $this, 'load_styles' ) );
 		add_action( 'wp', array( $this, 'grab_cookie' ) );
-		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
-		
+		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );		
 	}
 	
 	function includes() {
+		require_once( BP_GROUP_REVIEWS_DIR . 'includes/settings.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/classes.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
 	}
@@ -145,6 +146,28 @@ class BP_Group_Reviews {
 		}
 		
 		return $has_activities;
+	}
+	
+	function current_group_set_available() {
+		global $bp;
+	
+		if ( $this->current_group_is_available() )
+			$bp->groups->current_group->is_reviewable = '1';
+	}
+	
+	function current_group_is_available() {
+		global $bp;
+		
+		return BP_Group_Reviews::group_is_reviewable( $bp->groups->current_group->id );
+	}
+
+	function group_is_reviewable( $group_id ) {
+		if ( empty( $group_id ) )
+			return false;		
+			
+		$is_reviewable = groups_get_groupmeta( $group_id, 'bpgr_is_reviewable' ) == 'yes' ? true : false;
+		
+		return apply_filters( 'bpgr_group_is_reviewable', $is_reviewable, $group_id );
 	}
 }
 

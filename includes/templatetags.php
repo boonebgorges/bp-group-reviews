@@ -195,4 +195,6 @@ function bpgr_get_review_rating( $review_id = false ) {
 	return apply_filters( 'bpgr_review_rating', $rating, $review_id );
 }
 
+
+
 ?>

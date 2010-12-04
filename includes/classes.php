@@ -11,8 +11,10 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		$this->slug = $bp->group_reviews->slug;
 		
 		$this->nav_item_position = 22;
+		
 		$this->enable_create_step = false;
-		$this->enable_nav_item = true;
+		
+		$this->enable_nav_item = BP_Group_Reviews::current_group_is_available();
 		$this->enable_edit_item = false;
 
 		if ( isset( $_POST['review_submit'] ) ) {
