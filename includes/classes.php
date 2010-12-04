@@ -75,11 +75,11 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		if ( empty( $content ) || !strlen( trim( $content ) ) || empty( $user_id ) || empty( $group_id ) )
 			return false;
 	
-		/* Be sure the user is a member of the group before posting. */
+		// Be sure the user is a member of the group before posting.
 		if ( !is_site_admin() && !groups_is_user_member( $user_id, $group_id ) )
 			return false;
 	
-		/* Record this in activity streams */
+		// Record this in activity streams
 		$activity_action = sprintf( __( '%s reviewed %s:', 'bpgr'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 	
 		$rating_content = false;
@@ -129,21 +129,20 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		$ratings[$activity_id] = $score;
 		
 		// Pull the composite scores and recalculate
-		if ( !$rating = groups_get_groupmeta( $group_id, 'bpgr_rating' ) ) {
-			$rating = array();
-			$raw_score = 0;
-			$number = 0;
+		if ( !$rating = groups_get_groupmeta( $group_id, 'bpgr_rating' ) )
 			$avg_score = 0;
-		} else {
-			extract( $rating );		
+		if ( !$how_many = groups_get_groupmeta( $group_id, 'bpgr_how_many_ratings' ) )
+			$how_many = 0;
+		
+		$how_many++;
+		groups_update_groupmeta( $group_id, 'bpgr_how_many_ratings', $how_many );
+		
+		$raw_score = 0;
+		foreach( $ratings as $score ) {
+			$raw_score += (int)$score;
 		}
-		//print_r($bp); print_r($rating);
-		$rating['raw_score'] = $raw_score + $score;
-		$rating['number'] = (int)$number + 1;
-		$rating['avg_score'] = (int)$rating['raw_score'] / (int)$rating['number'];
-		
-		//print_r($rating); die();
-		
+		$rating = $raw_score / $how_many;
+				
 		groups_update_groupmeta( $group_id, 'bpgr_rating', $rating );
 			
 		groups_update_groupmeta( $group_id, 'bpgr_ratings', $ratings );

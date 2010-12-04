@@ -7,6 +7,8 @@ Description: Adds a review/rating section to BuddyPress groups. As seen on buddy
 Version: 1.0.2
 */
 
+define( 'BP_GROUP_REVIEWS_VERSION', '1.0.2' );
+
 if ( !defined( 'BP_GROUP_REVIEWS_SLUG' ) )
 	define( 'BP_GROUP_REVIEWS_SLUG', 'reviews' );
 
