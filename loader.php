@@ -40,7 +40,7 @@ function bpgr_textdomain() {
 		return;
 	}
 }
-add_action ('plugins_loaded', 'bpgr_textdomain');
+add_action ( 'plugins_loaded', 'bpgr_textdomain' );
 
 
 ?>
