@@ -85,8 +85,6 @@ function bpgr_get_plugin_rating_html( $rating, $num_ratings = 0 ) {
 }
 
 function bpgr_get_review_rating_html( $rating ) {
-	global $bp;
-
 	$star1 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '1 star', 'bpgr' ) . '" />';
 	$star2 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '2 stars', 'bpgr' ) . '" />';
 	$star3 = '<img src="' . bpgr_get_star_off_img() . '" alt="' . __( '3 stars', 'bpgr' ) . '" />';
@@ -119,8 +117,6 @@ function bpgr_is_group_reviews() {
 
 function bpgr_has_written_review() {
 	global $bp;
-
-	return false;
 
 	$has_posted = groups_get_groupmeta( $bp->groups->current_group->id, 'posted_review' );
 
@@ -195,6 +191,35 @@ function bpgr_get_review_rating( $review_id = false ) {
 	return apply_filters( 'bpgr_review_rating', $rating, $review_id );
 }
 
+function bpgr_allow_multiple_reviews() {
+	global $bp;
+	
+	$allow_multiples = !empty( $bp->group_reviews->allow_multiples ) ? true : false;
+	
+	return apply_filters( 'bpgr_allow_multiple_reviews', $allow_multiples );
+}
+
+function bpgr_user_previous_review_args() {
+	$args = array(
+		'user_id' => bp_loggedin_user_id(),
+		'type' => 'review',
+		'item_id' => bp_get_group_id(),
+		'max' => 1
+	);
+	
+	return apply_filters( 'bpgr_user_previous_review_args', $args );
+}
+
+function bpgr_activity_date_recorded() {
+	echo bpgr_get_activity_date_recorded();
+}
+	function bpgr_get_activity_date_recorded() {
+		$date = bp_get_activity_date_recorded();
+		
+		$format = get_option( 'date_format' );
+		
+		return apply_filters( 'bpgr_get_activity_date_recorded', date( $format, strtotime( $date ) ), $date ); 
+	}
 
 
 ?>
