@@ -25,6 +25,7 @@ class BP_Group_Reviews {
 		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
 		add_filter( 'bp_has_groups', array( $this, 'groups_template_data' ) );
 		add_action( 'bp_activity_action_delete_activity', array( $this, 'delete_activity' ), 10, 2 );
+		add_action( 'bp_directory_groups_actions', array( $this, 'directory_rating' ) );
 	}
 	
 	function includes() {
@@ -176,20 +177,29 @@ class BP_Group_Reviews {
 		if ( empty( $group_ids ) )
 			return $has_groups;
 		
-		$sql = apply_filters( 'bpgr_groups_data_sql', $wpdb->prepare( "SELECT group_id, meta_value AS rating FROM {$bp->groups->table_name_groupmeta} WHERE group_id IN ({$group_ids}) AND meta_key = 'bpgr_rating'" ) );
+		$sql = apply_filters( 'bpgr_groups_data_sql', $wpdb->prepare( "
+			SELECT m1.group_id, m1.meta_value AS rating, m2.meta_value AS rating_count  
+			FROM {$bp->groups->table_name_groupmeta} m1 
+			LEFT JOIN {$bp->groups->table_name_groupmeta} m2 ON (m1.group_id = m2.group_id) 
+			WHERE m1.group_id IN ({$group_ids}) 
+			AND m1.meta_key = 'bpgr_rating'
+			AND m2.meta_key = 'bpgr_rating'" 
+		) );
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 		
 		// Arrange the results in a properly-keyed array
 		$ratings = array();
 		foreach( $ratings_raw as $rating ) {
 			$id = $rating['group_id'];
-			$ratings[$id] = $rating['rating'];
+			$ratings[$id]['rating'] = $rating['rating'];
+			$ratings[$id]['rating_count'] = $rating['rating_count'];
 		}
 				
 		foreach( $groups_template->groups as $key => $group ) {
 			$id = $group->id;
 			
-			$groups_template->groups[$key]->rating = !empty( $ratings[$id] ) ? $ratings[$id] : '';			
+			$groups_template->groups[$key]->rating = !empty( $ratings[$id]['rating'] ) ? $ratings[$id]['rating'] : '';
+			$groups_template->groups[$key]->rating_count = !empty( $ratings[$id]['rating_count'] ) ? $ratings[$id]['rating_count'] : '';
 		}
 		
 		return $has_groups;
@@ -267,6 +277,15 @@ class BP_Group_Reviews {
 		
 		groups_update_groupmeta( $group_id, 'bpgr_how_many_ratings', $how_many );
 		groups_update_groupmeta( $group_id, 'bpgr_rating', $rating );		
+	}
+	
+	function directory_rating() {
+		global $groups_template;
+		
+		if ( empty( $groups_template->group->rating ) || empty( $groups_template->group->rating_count ) )
+			return;
+		
+		echo bpgr_get_plugin_rating_html( $groups_template->group->rating, $groups_template->group->rating_count );
 	}
 }
 
