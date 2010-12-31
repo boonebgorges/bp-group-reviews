@@ -104,6 +104,8 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 	
 		groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 	
+		do_action( 'bpgr_posted_review', $args, $activity_id );
+	
 		return $activity_id;
 	}
 	
