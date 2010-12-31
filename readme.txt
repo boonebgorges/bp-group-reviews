@@ -37,8 +37,12 @@ Let me know and I'll put it in there for you.
 * Italian: Luca Camellini
 * Persian: [Alefba](http://alefba.us)
 * Dutch: GooseNL
+* Spanish: SeluGlindoo
 
 == Changelog ==
+
+= 1.0.4 =
+* Spanish translation added (props SeluGlindoo)
 
 = 1.0.3 =
 * Reviews can now be enabled on a group-by-group basis (group admin > group settings)
