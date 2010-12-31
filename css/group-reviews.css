@@ -6,3 +6,22 @@ div.star-holder div.star {
 	float: left;
 	width: 16px;
 }
+
+
+.already-rated p {
+	margin-left: 76px;
+}
+
+.already-rated blockquote {
+	position: relative;
+	margin-left: 76px;
+	font-style: italic;
+	padding: 10px 100px 10px 10px;
+	background: #edeee6;
+}
+
+.already-rated .rest-stars {
+	position: absolute;
+	top: 10px;
+	right: 20px;
+}
