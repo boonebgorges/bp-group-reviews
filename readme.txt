@@ -42,6 +42,7 @@ Let me know and I'll put it in there for you.
 == Changelog ==
 
 = 1.0.4 =
+* Users are limited by default to one review per group
 * Spanish translation added (props SeluGlindoo)
 
 = 1.0.3 =

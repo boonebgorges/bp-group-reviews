@@ -191,6 +191,19 @@ function bpgr_get_review_rating( $review_id = false ) {
 	return apply_filters( 'bpgr_review_rating', $rating, $review_id );
 }
 
+/**
+ * Returns true if users are able to post more than one review per group
+ *
+ * By default, this function returns false. To allow multiple reviews per group, put the
+ * following in your bp-custom.php file:
+ * add_filter( 'bpgr_allow_multiple_reviews', create_function( false, "return true;" ) );
+ * You can make these permissions more fine grained by hooking a custom function to
+ * 'bpgr_allow_multiple_reviews'.
+ *
+ * @package BP Group Reviews
+ *
+ * @return bool
+ */
 function bpgr_allow_multiple_reviews() {
 	return apply_filters( 'bpgr_allow_multiple_reviews', false );
 }
