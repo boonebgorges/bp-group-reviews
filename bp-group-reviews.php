@@ -72,7 +72,6 @@ class BP_Group_Reviews {
 		global $bp;
 	
 		$bp->group_reviews->slug = BP_GROUP_REVIEWS_SLUG;
-		$bp->group_rewiews->allow_multiples = apply_filters( 'bpgr_allow_multiples_default', false );
 	
 		$image_types = array(
 			'star',

@@ -192,11 +192,7 @@ function bpgr_get_review_rating( $review_id = false ) {
 }
 
 function bpgr_allow_multiple_reviews() {
-	global $bp;
-	
-	$allow_multiples = !empty( $bp->group_reviews->allow_multiples ) ? true : false;
-	
-	return apply_filters( 'bpgr_allow_multiple_reviews', $allow_multiples );
+	return apply_filters( 'bpgr_allow_multiple_reviews', false );
 }
 
 function bpgr_user_previous_review_args() {
