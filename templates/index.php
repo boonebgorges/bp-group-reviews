@@ -1,9 +1,7 @@
 <?php do_action( 'bp_before_reviews' ) ?>
 
 <div id="group-reviews" class="activity">
-	<?php if ( bpgr_is_group_reviews() && !bpgr_has_written_review() && is_user_logged_in() ) : ?>
-		<?php include( apply_filters( 'bpgr_post_template', BP_GROUP_REVIEWS_DIR . 'templates/post.php' ) ) ?>
-	<?php endif; ?>
+	<?php include( apply_filters( 'bpgr_post_template', BP_GROUP_REVIEWS_DIR . 'templates/post.php' ) ) ?>
 
 	<?php
 		if ( bpgr_is_group_reviews() ) {
