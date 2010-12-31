@@ -38,7 +38,9 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 					bp_core_add_message( "Your review was posted successfully!" );
 
 					$has_posted = groups_get_groupmeta( $bp->groups->current_group->id, 'posted_review' );
-					$has_posted[] = (int)$bp->loggedin_user->id;
+					if ( !in_array( (int)$bp->loggedin_user->id, (array)$has_posted ) ) {
+						$has_posted[] = (int)$bp->loggedin_user->id;
+					}
 					groups_update_groupmeta( $bp->groups->current_group->id, 'posted_review', $has_posted );
 
 					if ( (int)$_POST['rating'] < 0 )

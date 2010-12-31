@@ -22,7 +22,8 @@ class BP_Group_Reviews {
 		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );		
 		add_action( 'wp_print_styles', array( $this, 'load_styles' ) );
 		add_action( 'wp', array( $this, 'grab_cookie' ) );
-		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );		
+		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );	
+		add_action( 'bp_activity_action_delete_activity', array( $this, 'delete_activity' ), 10, 2 );
 	}
 	
 	function includes() {
@@ -71,6 +72,7 @@ class BP_Group_Reviews {
 		global $bp;
 	
 		$bp->group_reviews->slug = BP_GROUP_REVIEWS_SLUG;
+		$bp->group_rewiews->allow_multiples = apply_filters( 'bpgr_allow_multiples_default', false );
 	
 		$image_types = array(
 			'star',
@@ -127,6 +129,9 @@ class BP_Group_Reviews {
 		}
 		$activity_ids = implode( ',', $activity_ids );
 		
+		if ( empty( $activity_ids ) )
+			return $has_activities;
+		
 		$sql = apply_filters( 'bpgr_activities_data_sql', $wpdb->prepare( "SELECT activity_id, meta_value AS rating FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids}) AND meta_key = 'bpgr_rating'" ) );
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 		
@@ -170,6 +175,58 @@ class BP_Group_Reviews {
 		$is_reviewable = groups_get_groupmeta( $group_id, 'bpgr_is_reviewable' ) == 'yes' ? true : false;
 		
 		return apply_filters( 'bpgr_group_is_reviewable', $is_reviewable, $group_id );
+	}
+	
+	function delete_activity( $activity_id, $user_id ) {	
+		$activity = new BP_Activity_Activity( $activity_id );
+		$group_id = $activity->item_id;
+		
+		// First check whether the current user has more than one group review
+		$args = array(
+			'user_id' => $user_id,
+			'type' => 'review',
+			'item_id' => $group_id
+		);
+		
+		if ( bp_has_activities() ) {
+			if ( bp_get_activity_count() > 1 ) {
+				// If so, then remove the user from the list of reviewers
+				$has_posted = (array)groups_get_groupmeta( $group_id, 'posted_review' );
+				
+				// Because of a previous bug, we have to remove *all* instances
+				$keys = array_keys( $has_posted, $user_id );
+				foreach( (array)$keys as $key ) {
+					unset( $has_posted[$key] );
+				}
+				$has_posted = array_values( $has_posted );
+				
+				groups_update_groupmeta( $group_id, 'posted_review', $has_posted );
+			}
+		}
+		
+		// Next, remove the rating from the list of ratings
+		$group_ratings = groups_get_groupmeta( $group_id, 'bpgr_ratings' );
+		if ( !empty( $group_ratings[$activity_id] ) )
+			unset( $group_ratings[$activity_id] );
+		groups_update_groupmeta( $group_id, 'bpgr_ratings', $group_ratings );
+		
+		// Then recalculate the total number of ratings and the average
+		// Pull the composite scores and recalculate
+		if ( !$rating = groups_get_groupmeta( $group_id, 'bpgr_rating' ) )
+			$avg_score = 0;
+		if ( !$how_many = groups_get_groupmeta( $group_id, 'bpgr_how_many_ratings' ) )
+			$how_many = 0;
+
+		// In order to account for recording errors, we will recalculate based on data
+		$raw_score = 0;
+		foreach( $group_ratings as $score ) {
+			$raw_score += (int)$score;
+		}
+		$how_many = count( $group_ratings );
+		$rating = $how_many === 0 ? 0 : $raw_score / $how_many;
+		
+		groups_update_groupmeta( $group_id, 'bpgr_how_many_ratings', $how_many );
+		groups_update_groupmeta( $group_id, 'bpgr_rating', $rating );		
 	}
 }
 
