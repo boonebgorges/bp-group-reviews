@@ -25,7 +25,6 @@ class BP_Group_Reviews {
 		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
 		add_filter( 'bp_has_groups', array( $this, 'groups_template_data' ) );
 		add_action( 'bp_activity_action_delete_activity', array( $this, 'delete_activity' ), 10, 2 );
-		add_action( 'bp_directory_groups_actions', array( $this, 'directory_rating' ) );
 	}
 	
 	function includes() {
@@ -277,15 +276,6 @@ class BP_Group_Reviews {
 		
 		groups_update_groupmeta( $group_id, 'bpgr_how_many_ratings', $how_many );
 		groups_update_groupmeta( $group_id, 'bpgr_rating', $rating );		
-	}
-	
-	function directory_rating() {
-		global $groups_template;
-		
-		if ( empty( $groups_template->group->rating ) || empty( $groups_template->group->rating_count ) )
-			return;
-		
-		echo bpgr_get_plugin_rating_html( $groups_template->group->rating, $groups_template->group->rating_count );
 	}
 }
 
