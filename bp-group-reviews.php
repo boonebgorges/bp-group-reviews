@@ -22,7 +22,8 @@ class BP_Group_Reviews {
 		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );		
 		add_action( 'wp_print_styles', array( $this, 'load_styles' ) );
 		add_action( 'wp', array( $this, 'grab_cookie' ) );
-		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );	
+		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
+		add_filter( 'bp_has_groups', array( $this, 'groups_template_data' ) );
 		add_action( 'bp_activity_action_delete_activity', array( $this, 'delete_activity' ), 10, 2 );
 	}
 	
@@ -148,10 +149,50 @@ class BP_Group_Reviews {
 			
 			$id = $activity->id;
 			
-			$activities_template->activities[$key]->rating = $ratings[$id];			
+			$activities_template->activities[$key]->rating = !empty( $ratings[$id] ) ? $ratings[$id] : '';			
 		}
 		
 		return $has_activities;
+	}
+	
+	/**
+	 * Fetch review data when the group loop is created. Done in one fell swoop to minimize
+	 * database queries. 
+	 *
+	 * @package BP Group Reviews
+	 * @uses $groups_template The global groups loop object
+	 * @param bool $has_groups Must be returned in order for content to render
+	 * @return bool $has_groups
+	 */
+	function groups_template_data( $has_groups ) {
+		global $groups_template, $wpdb, $bp;
+		
+		$group_ids = array();
+		foreach( $groups_template->groups as $group ) {
+			$group_ids[] = $group->id;
+		}
+		$group_ids = implode( ',', $group_ids );
+		
+		if ( empty( $group_ids ) )
+			return $has_groups;
+		
+		$sql = apply_filters( 'bpgr_groups_data_sql', $wpdb->prepare( "SELECT group_id, meta_value AS rating FROM {$bp->groups->table_name_groupmeta} WHERE group_id IN ({$group_ids}) AND meta_key = 'bpgr_rating'" ) );
+		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
+		
+		// Arrange the results in a properly-keyed array
+		$ratings = array();
+		foreach( $ratings_raw as $rating ) {
+			$id = $rating['group_id'];
+			$ratings[$id] = $rating['rating'];
+		}
+				
+		foreach( $groups_template->groups as $key => $group ) {
+			$id = $group->id;
+			
+			$groups_template->groups[$key]->rating = !empty( $ratings[$id] ) ? $ratings[$id] : '';			
+		}
+		
+		return $has_groups;
 	}
 	
 	function current_group_set_available() {
