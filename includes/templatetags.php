@@ -230,5 +230,14 @@ function bpgr_activity_date_recorded() {
 		return apply_filters( 'bpgr_get_activity_date_recorded', date( $format, strtotime( $date ) ), $date ); 
 	}
 
+function bpgr_directory_rating() {
+	global $groups_template;
+	
+	if ( empty( $groups_template->group->rating ) || empty( $groups_template->group->rating_count ) )
+		return;
+	
+	echo bpgr_get_plugin_rating_html( $groups_template->group->rating, $groups_template->group->rating_count );
+}
+add_action( 'bp_directory_groups_actions', 'bpgr_directory_rating' );
 
 ?>
