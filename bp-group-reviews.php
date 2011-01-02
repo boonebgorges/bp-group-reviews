@@ -104,8 +104,12 @@ class BP_Group_Reviews {
 	function grab_cookie() {
 		global $bp;
 		
-		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) )
-			$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
+		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) ) {
+			if ( function_exists( 'imap_base64' ) )
+				$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
+			else if ( function_exists( 'base64_encode' ) )
+				$bp->group_reviews->previous_data = maybe_unserialize( base64_encode ( $_COOKIE['bpgr-data'] ) );
+		}
 		
 		@setcookie( 'bpgr-data', false, time() - 1000, COOKIEPATH );
 	}
