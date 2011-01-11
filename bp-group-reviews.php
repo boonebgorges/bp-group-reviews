@@ -40,7 +40,7 @@ class BP_Group_Reviews {
 	}	
 	
 	function load_js() {
-		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js' );
+		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js', array( "jquery" ) );
 		wp_enqueue_script( 'bp-group-reviews' );	
 		
 		$params = array(
