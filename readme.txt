@@ -40,6 +40,8 @@ Let me know and I'll put it in there for you.
 * Spanish: SeluGlindoo
 
 == Changelog ==
+= 1.1.2 =
+* Fixed bug that caused BPGR JS to load before jQuery in some cases. Props Brajesh
 
 = 1.1.1 =
 * Fixed bug that made it unreasonably difficult to unhook directory ratings
