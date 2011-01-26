@@ -38,10 +38,13 @@ Let me know and I'll put it in there for you.
 * Persian: [Alefba](http://alefba.us)
 * Dutch: GooseNL
 * Spanish: SeluGlindoo
+* Russian: slaFFik
 
 == Changelog ==
 = 1.1.2 =
 * Fixed bug that caused BPGR JS to load before jQuery in some cases. Props Brajesh
+* Fixed bug that may have caused review post form for non-logged-in members. Props slaFFik
+* Russian translation added. Props slaFFik
 
 = 1.1.1 =
 * Fixed bug that made it unreasonably difficult to unhook directory ratings
