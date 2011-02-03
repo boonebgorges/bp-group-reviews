@@ -31,6 +31,7 @@ class BP_Group_Reviews {
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/settings.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/classes.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
+		require_once( BP_GROUP_REVIEWS_DIR . 'includes/widgets.php' );
 	}
 	
 	function maybe_update() {
