@@ -186,7 +186,7 @@ class BP_Group_Reviews {
 			LEFT JOIN {$bp->groups->table_name_groupmeta} m2 ON (m1.group_id = m2.group_id) 
 			WHERE m1.group_id IN ({$group_ids}) 
 			AND m1.meta_key = 'bpgr_rating'
-			AND m2.meta_key = 'bpgr_rating'" 
+			AND m2.meta_key = 'bpgr_how_many_ratings'" 
 		) );
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 		
