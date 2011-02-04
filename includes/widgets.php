@@ -37,7 +37,7 @@ class RatingWidget extends WP_Widget {
 		FROM {$bp->groups->table_name_groupmeta} m1 
 		LEFT JOIN {$bp->groups->table_name_groupmeta} m2 ON (m1.group_id = m2.group_id) 
 		WHERE m1.meta_key = 'bpgr_rating'
-		AND m2.meta_key = 'bpgr_rating'
+		AND m2.meta_key = 'bpgr_how_many_ratings'
 		ORDER BY rating DESC
 		LIMIT 0, %d",
 		$number
