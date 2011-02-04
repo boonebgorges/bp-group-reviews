@@ -31,6 +31,7 @@ class BP_Group_Reviews {
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/settings.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/classes.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
+		require_once( BP_GROUP_REVIEWS_DIR . 'includes/widgets.php' );
 	}
 	
 	function maybe_update() {
@@ -40,7 +41,7 @@ class BP_Group_Reviews {
 	}	
 	
 	function load_js() {
-		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js' );
+		wp_register_script( 'bp-group-reviews', BP_GROUP_REVIEWS_URL . 'js/group-reviews.js', array( "jquery" ) );
 		wp_enqueue_script( 'bp-group-reviews' );	
 		
 		$params = array(
@@ -104,8 +105,12 @@ class BP_Group_Reviews {
 	function grab_cookie() {
 		global $bp;
 		
-		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) )
-			$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
+		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) ) {
+			if ( function_exists( 'imap_base64' ) )
+				$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
+			else if ( function_exists( 'base64_encode' ) )
+				$bp->group_reviews->previous_data = maybe_unserialize( base64_encode ( $_COOKIE['bpgr-data'] ) );
+		}
 		
 		@setcookie( 'bpgr-data', false, time() - 1000, COOKIEPATH );
 	}
@@ -182,7 +187,7 @@ class BP_Group_Reviews {
 			LEFT JOIN {$bp->groups->table_name_groupmeta} m2 ON (m1.group_id = m2.group_id) 
 			WHERE m1.group_id IN ({$group_ids}) 
 			AND m1.meta_key = 'bpgr_rating'
-			AND m2.meta_key = 'bpgr_rating'" 
+			AND m2.meta_key = 'bpgr_how_many_ratings'" 
 		) );
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 		
@@ -282,7 +287,5 @@ class BP_Group_Reviews {
 endif;
 
 $bp_group_reviews = new BP_Group_Reviews;
-
-
 
 ?>
