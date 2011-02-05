@@ -115,12 +115,19 @@ function bpgr_is_group_reviews() {
 	return ( !empty( $bp->groups->current_group ) && $bp->current_component == BP_GROUPS_SLUG && $bp->current_action == $bp->group_reviews->slug );
 }
 
+/**
+ * Determine whether the logged-in user has left a review for this group.
+ *
+ * @package BP Group Reviews
+ *
+ * @return bool
+ */
 function bpgr_has_written_review() {
 	global $bp;
 
 	$has_posted = groups_get_groupmeta( $bp->groups->current_group->id, 'posted_review' );
 
-	return in_array( $bp->loggedin_user->id, (array) $has_posted );
+	return apply_filters( 'bpgr_has_written_reviews', in_array( $bp->loggedin_user->id, (array) $has_posted ) );
 }
 
 function bpgr_star_img() {
