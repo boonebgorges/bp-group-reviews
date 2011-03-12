@@ -8,7 +8,9 @@ class BP_Group_Reviews {
 	}
 	
 	function __construct() {
-		if ( !bp_is_active( 'groups' ) )
+		// The plugin won't run without groups
+		// For now, reviews are pegged to activity. Todo: move to cpts
+		if ( !bp_is_active( 'groups' ) || !bp_is_active( 'activity' ) )
 			return false;
 	
 		$this->includes();
