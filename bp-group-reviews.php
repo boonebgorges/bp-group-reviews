@@ -216,10 +216,28 @@ class BP_Group_Reviews {
 			$bp->groups->current_group->is_reviewable = '1';
 	}
 	
+	/**
+	 * Check whether the group reviews tab is available for the current group
+	 *
+	 * A member specific check is done first. This should probably be moved out in the future
+	 *
+	 * @package BP Group Reviews
+	 * @since 1.0.3
+	 *
+	 * @return bool $is_available True if the reviews tab is available for the group
+	 */
 	function current_group_is_available() {
 		global $bp;
 		
-		return BP_Group_Reviews::group_is_reviewable( $bp->groups->current_group->id );
+		// If the current user doesn't have access to the group, don't bother checking
+		// whether reviews are turned on
+		if ( empty( $bp->groups->current_group->user_has_access ) ) {
+			$is_available = false;
+		} else {
+			$is_available = BP_Group_Reviews::group_is_reviewable( $bp->groups->current_group->id );
+		}
+		
+		return apply_filters( 'bpgr_current_group_is_available', $is_available );
 	}
 
 	function group_is_reviewable( $group_id ) {
