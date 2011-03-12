@@ -3,9 +3,8 @@ Contributors: boonebgorges, apeatling
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, group, groups, review, rating, star
 Requires at least: WP 3.0, BP 1.2.5
-Tested up to: WP 3.0.4, BP 1.2.7
-Stable tag: 1.2
-
+Tested up to: WP 3.1, BP 1.2.8
+Stable tag: 1.2.1
 
 Adds a reviews/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 
@@ -42,6 +41,11 @@ Let me know and I'll put it in there for you.
 * Russian: slaFFik
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixes bug that caused errors when activity component is disabled
+* Prevents non-members from accessing the Reviews tabs of private and hidden groups
+
 = 1.2 =
 * Adds Highest Rated widget
 * Fixed bug that caused BPGR JS to load before jQuery in some cases. Props Brajesh
