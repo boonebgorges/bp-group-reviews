@@ -42,6 +42,9 @@ Let me know and I'll put it in there for you.
 
 == Changelog ==
 
+= 1.2.2 =
+* Fixes bug that caused number of reviews not to be counted in some legacy cases
+
 = 1.2.1 =
 * Fixes bug that caused errors when activity component is disabled
 * Prevents non-members from accessing the Reviews tabs of private and hidden groups
