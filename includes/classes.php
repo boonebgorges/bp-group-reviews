@@ -137,7 +137,7 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		// Pull the composite scores and recalculate
 		if ( !$rating = groups_get_groupmeta( $group_id, 'bpgr_rating' ) )
 			$avg_score = 0;
-		if ( !$how_many = groups_get_groupmeta( $group_id, 'bpgr_how_many_ratings' ) )
+		if ( !$how_many = (int)groups_get_groupmeta( $group_id, 'bpgr_how_many_ratings' ) )
 			$how_many = 0;
 		
 		$how_many++;
