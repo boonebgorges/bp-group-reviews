@@ -2,9 +2,15 @@
 
 
 function bpgr_render_review() {
+	global $bp;
+	
+	// Don't show for groups that have reviews turned off
+	if ( !BP_Group_Reviews::current_group_is_available() )
+		return;
+	
 	// Rendering the full span so you can avoid editing your group-header.php template
 	// If you don't like it you can call bpgr_review_html() yourself and unhook this function ;)
-	
+		
 	?>
 	<span class="rating"><?php echo bpgr_review_html() ?></span>
 	<?php
@@ -240,6 +246,11 @@ function bpgr_activity_date_recorded() {
 function bpgr_directory_rating() {
 	global $groups_template;
 	
+	// Don't show if the group has ratings turned off
+	if ( empty( $groups_template->group->ratings_enabled ) || 'yes' != $groups_template->group->ratings_enabled )
+		return;
+	
+	// Don't show if there are no ratings
 	if ( empty( $groups_template->group->rating ) || empty( $groups_template->group->rating_count ) )
 		return;
 	
