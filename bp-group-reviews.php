@@ -18,7 +18,7 @@ class BP_Group_Reviews {
 		add_action( 'bp_init', array( $this, 'maybe_update' ) );
 		
 		add_action( 'bp_setup_globals', array( $this, 'setup_globals' ) );
-		add_action( 'groups_setup_globals', array( $this, 'current_group_set_available' ) );
+		add_action( 'groups_setup_nav', array( $this, 'current_group_set_available' ) );
 		add_action( 'groups_setup_nav', array( $this, 'setup_current_group_globals' ) );
 		add_action( 'wp_print_scripts', array( $this, 'load_js' ) );
 		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );		
@@ -184,12 +184,14 @@ class BP_Group_Reviews {
 			return $has_groups;
 		
 		$sql = apply_filters( 'bpgr_groups_data_sql', $wpdb->prepare( "
-			SELECT m1.group_id, m1.meta_value AS rating, m2.meta_value AS rating_count  
+			SELECT m1.group_id, m1.meta_value AS rating, m2.meta_value AS rating_count, m3.meta_value AS ratings_enabled   
 			FROM {$bp->groups->table_name_groupmeta} m1 
 			LEFT JOIN {$bp->groups->table_name_groupmeta} m2 ON (m1.group_id = m2.group_id) 
+			LEFT JOIN {$bp->groups->table_name_groupmeta} m3 ON (m1.group_id = m3.group_id) 
 			WHERE m1.group_id IN ({$group_ids}) 
 			AND m1.meta_key = 'bpgr_rating'
-			AND m2.meta_key = 'bpgr_how_many_ratings'" 
+			AND m2.meta_key = 'bpgr_how_many_ratings' 
+			AND m3.meta_key = 'bpgr_is_reviewable'" 
 		) );
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 		
@@ -199,6 +201,7 @@ class BP_Group_Reviews {
 			$id = $rating['group_id'];
 			$ratings[$id]['rating'] = $rating['rating'];
 			$ratings[$id]['rating_count'] = $rating['rating_count'];
+			$ratings[$id]['ratings_enabled'] = $rating['ratings_enabled'];
 		}
 				
 		foreach( $groups_template->groups as $key => $group ) {
@@ -206,6 +209,7 @@ class BP_Group_Reviews {
 			
 			$groups_template->groups[$key]->rating = !empty( $ratings[$id]['rating'] ) ? $ratings[$id]['rating'] : '';
 			$groups_template->groups[$key]->rating_count = !empty( $ratings[$id]['rating_count'] ) ? $ratings[$id]['rating_count'] : '';
+			$groups_template->groups[$key]->ratings_enabled = !empty( $ratings[$id]['ratings_enabled'] ) ? $ratings[$id]['ratings_enabled'] : '';
 		}
 		
 		return $has_groups;
@@ -213,9 +217,12 @@ class BP_Group_Reviews {
 	
 	function current_group_set_available() {
 		global $bp;
-	
-		if ( $this->current_group_is_available() )
+		
+		if ( $this->current_group_is_available() ) {
 			$bp->groups->current_group->is_reviewable = '1';
+		} else {
+			$bp->groups->current_group->is_reviewable = '0';
+		}
 	}
 	
 	/**
@@ -231,12 +238,17 @@ class BP_Group_Reviews {
 	function current_group_is_available() {
 		global $bp;
 		
-		// If the current user doesn't have access to the group, don't bother checking
-		// whether reviews are turned on
-		if ( empty( $bp->groups->current_group->user_has_access ) ) {
-			$is_available = false;
+		// Check to see whether it's already in the global
+		if ( isset( $bp->groups->current_group->is_reviewable ) ) {
+			$is_available = $bp->groups->current_group->is_reviewable ? true : false;
 		} else {
-			$is_available = BP_Group_Reviews::group_is_reviewable( $bp->groups->current_group->id );
+			// If the current user doesn't have access to the group, don't bother 
+			// checking whether reviews are turned on
+			if ( empty( $bp->groups->current_group->user_has_access ) ) {
+				$is_available = false;
+			} else {
+				$is_available = BP_Group_Reviews::group_is_reviewable( $bp->groups->current_group->id );
+			}
 		}
 		
 		return apply_filters( 'bpgr_current_group_is_available', $is_available );
