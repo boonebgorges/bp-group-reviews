@@ -218,10 +218,12 @@ class BP_Group_Reviews {
 	function current_group_set_available() {
 		global $bp;
 		
-		if ( $this->current_group_is_available() ) {
-			$bp->groups->current_group->is_reviewable = '1';
-		} else {
-			$bp->groups->current_group->is_reviewable = '0';
+		if ( isset( $bp->groups->current_group ) ) {
+			if ( $this->current_group_is_available() ) {
+				$bp->groups->current_group->is_reviewable = '1';
+			} else {
+				$bp->groups->current_group->is_reviewable = '0';
+			}
 		}
 	}
 	
