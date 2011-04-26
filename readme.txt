@@ -42,6 +42,9 @@ Let me know and I'll put it in there for you.
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixes a bug that caused BPGR to interfere with topic listing on Forums directory.
+
 = 1.2.2 =
 * Fixes bug that caused number of reviews not to be counted in some legacy cases
 * Hides group review data in directories and in group headers when the group has had reviews but then has them turned off
