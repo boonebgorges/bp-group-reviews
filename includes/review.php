@@ -150,9 +150,9 @@ class BP_Group_Reviews_Review {
 
 $ok = new BP_Group_Reviews_Review( array( 'user_id' => array( 1,3,5 ) ) );
 
-if ( $ok->have_reviews() ) :
+/*if ( $ok->have_reviews() ) :
 	while ( $ok->have_reviews() ) : $ok->the_review();
 	echo 'yes!';
 	endwhile;
-endif;
+endif;*/
 ?>
