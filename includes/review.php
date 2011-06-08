@@ -66,7 +66,7 @@ class BP_Group_Reviews_Review {
 	
 	function _load_reviews() {		
 		$wp_query_args = array(
-			'post_type'	=> $this->post_type_name,
+		//	'post_type'	=> $this->post_type_name,
 			'post_status'	=> 'publish'
 		);
 		
@@ -134,8 +134,25 @@ class BP_Group_Reviews_Review {
 		
 		$this->reviews = new WP_Query( $wp_query_args );
 	}
+	
+	function get() {
+		return $this->reviews;
+	}
+	
+	function have_reviews() {
+		return $this->reviews->have_posts();
+	}
+
+	function the_review() {
+		return $this->reviews->the_post();
+	}
 }
 
-//$ok = new BP_Group_Reviews_Review( array( 'user_id' => array( 1,3,5 ), 'reviewed_user_id' => 3, 'reviewed_group_id' => array( 3,5 ) ) );
+$ok = new BP_Group_Reviews_Review( array( 'user_id' => array( 1,3,5 ) ) );
 
+if ( $ok->have_reviews() ) :
+	while ( $ok->have_reviews() ) : $ok->the_review();
+	echo 'yes!';
+	endwhile;
+endif;
 ?>
