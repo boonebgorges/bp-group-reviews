@@ -2,6 +2,8 @@
 
 class BP_Group_Reviews_Schema {
 	var $post_type_name;
+	var $user_tax_name;
+	var $group_tax_name;
 	
 	/**
 	 * PHP 4 constructor
@@ -26,9 +28,15 @@ class BP_Group_Reviews_Schema {
 	}
 	
 	function setup_vars() {
-		$this->post_type_name = apply_filters( 'bpgr_post_type_name', 'bpgr_review' );
-		$this->user_tax_name = apply_filters( 'bpgr_user_tax_name', 'bpgr_user' );
-		$this->group_tax_name = apply_filters( 'bpgr_group_tax_name', 'bpgr_group' );
+		global $bp;
+		
+		$this->post_type_name 	= apply_filters( 'bpgr_post_type_name', 'bpgr_review' );
+		$this->user_tax_name 	= apply_filters( 'bpgr_user_tax_name', 'bpgr_user' );
+		$this->group_tax_name 	= apply_filters( 'bpgr_group_tax_name', 'bpgr_group' );
+	
+		$bp->reviews->post_type_name 	= $this->post_type_name;
+		$bp->reviews->user_tax_name 	= $this->user_tax_name;
+		$bp->reviews->group_tax_name 	= $this->group_tax_name;
 	}
 	
 	function register_post_type() {
