@@ -30,6 +30,7 @@ class BP_Group_Reviews {
 	}
 	
 	function includes() {
+		require_once( BP_GROUP_REVIEWS_DIR . 'includes/schema.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/settings.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/classes.php' );
 		require_once( BP_GROUP_REVIEWS_DIR . 'includes/templatetags.php' );
