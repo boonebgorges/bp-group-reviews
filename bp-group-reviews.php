@@ -218,7 +218,7 @@ class BP_Group_Reviews {
 	function current_group_set_available() {
 		global $bp;
 		
-		if ( isset( $bp->groups->current_group ) ) {
+		if ( !empty( $bp->groups->current_group ) ) {
 			if ( $this->current_group_is_available() ) {
 				$bp->groups->current_group->is_reviewable = '1';
 			} else {
