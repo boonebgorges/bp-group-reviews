@@ -39,7 +39,7 @@ class BP_Group_Reviews {
 	}
 	
 	function maybe_update() {
-		if ( get_option( 'bp_group_reviews_version' ) < BP_GROUP_REVIEWS_VER ) {
+		if ( get_option( 'bp_group_reviews_version' ) < BP_GROUP_REVIEWS_VERSION ) {
 			require_once( BP_GROUP_REVIEWS_DIR . 'includes/upgrade.php' );
 		}
 	}	
@@ -220,7 +220,7 @@ class BP_Group_Reviews {
 	function current_group_set_available() {
 		global $bp;
 		
-		if ( isset( $bp->groups->current_group ) ) {
+		if ( !empty( $bp->groups->current_group ) ) {
 			if ( $this->current_group_is_available() ) {
 				$bp->groups->current_group->is_reviewable = '1';
 			} else {
