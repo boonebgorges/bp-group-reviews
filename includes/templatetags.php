@@ -199,7 +199,7 @@ function bpgr_get_review_rating( $review_id = false ) {
 	global $activities_template;
 		
 	if ( !$review_id ) {
-		$rating = $activities_template->activity->rating;	
+		$rating = isset( $activities_template->activity->rating ) ? $activities->template->activity->rating : false;	
 	} else {
 		$rating = bp_activity_get_meta( $review_id, 'bpgr_rating' );	
 	}
