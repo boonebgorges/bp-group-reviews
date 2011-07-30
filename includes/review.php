@@ -67,7 +67,8 @@ class BP_Group_Reviews_Review {
 	function _load_reviews() {		
 		$wp_query_args = array(
 		//	'post_type'	=> $this->post_type_name,
-			'post_status'	=> 'publish'
+			'post_status'	=> 'publish',
+			'suppress_filters' => 1
 		);
 		
 		if ( $this->review_id ) {
@@ -148,11 +149,14 @@ class BP_Group_Reviews_Review {
 	}
 }
 
-$ok = new BP_Group_Reviews_Review( array( 'user_id' => array( 1,3,5 ) ) );
-
-/*if ( $ok->have_reviews() ) :
-	while ( $ok->have_reviews() ) : $ok->the_review();
-	echo 'yes!';
-	endwhile;
-endif;*/
+function bpgr_test() {
+	$ok = new BP_Group_Reviews_Review( array( 'user_id' => array( 1,3,5 ) ) );
+	
+	if ( $ok->have_reviews() ) :
+		while ( $ok->have_reviews() ) : $ok->the_review();
+		echo 'yes!';
+		endwhile;
+	endif;
+}
+//add_action( 'admin_init', 'bpgr_test' );
 ?>

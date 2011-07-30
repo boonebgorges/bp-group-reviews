@@ -20,7 +20,10 @@ add_action( 'bp_group_header_meta', 'bpgr_render_review' );
 function bpgr_review_html() {
 	global $bp;
 	
-	return bpgr_get_plugin_rating_html( $bp->groups->current_group->rating_avg_score, $bp->groups->current_group->rating_number );
+	$rating_avg_score = isset( $bp->groups->current_group->rating_avg_score ) ? $bp->groups->current_group->rating_avg_score : false;
+	$rating_number    = isset( $bp->groups->current_group->rating_number ) ? $bp->groups->current_group->rating_number : false;
+	
+	return bpgr_get_plugin_rating_html( $rating_avg_score, $rating_number );
 }
 
 

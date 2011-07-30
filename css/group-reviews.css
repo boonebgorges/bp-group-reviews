@@ -31,3 +31,11 @@ div.star-holder div.star {
 	font-size: 8pt;
 	clear: both;
 }
+
+#review-rating {
+	margin-top: 12px;
+}
+
+form#whats-new-form.review-form #whats-new-submit {
+	margin-top: 8px;
+}

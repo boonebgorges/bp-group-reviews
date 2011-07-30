@@ -176,6 +176,9 @@ class BP_Group_Reviews {
 	function groups_template_data( $has_groups ) {
 		global $groups_template, $wpdb, $bp;
 		
+		if ( !bp_is_directory() )
+			return $has_groups;
+		
 		$group_ids = array();
 		foreach( $groups_template->groups as $group ) {
 			$group_ids[] = $group->id;
