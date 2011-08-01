@@ -27,6 +27,7 @@ class BP_Group_Reviews {
 		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
 		add_filter( 'bp_has_groups', array( $this, 'groups_template_data' ) );
 		add_action( 'bp_activity_action_delete_activity', array( $this, 'delete_activity' ), 10, 2 );
+		add_action( 'bp_activity_excerpt_length', array( $this, 'activity_excerpt_length' ) );
 	}
 	
 	function includes() {
@@ -318,6 +319,28 @@ class BP_Group_Reviews {
 		
 		groups_update_groupmeta( $group_id, 'bpgr_how_many_ratings', $how_many );
 		groups_update_groupmeta( $group_id, 'bpgr_rating', $rating );		
+	}
+	
+	/**
+	 * Makes activity entry excerpts longer
+	 *
+	 * BuddyPress 1.5+ limits the length of activity entries, and provides a 'Read More' link.
+	 * Because this excerpt is based on character count, and because BPGR activity items are
+	 * prepended with the HTML of the star rating, the excerpt ends up being far too short.
+	 * 
+	 * @package BP Group Reviews
+	 * @since 1.3
+	 *
+	 * @param int $length
+	 * @return int
+	 */
+	function activity_excerpt_length( $length ) {
+		global $activities_template;
+		
+		if ( 'review' == $activities_template->activity->type )
+			$length = 1000;
+		
+		return $length;
 	}
 }
 
