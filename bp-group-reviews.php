@@ -338,7 +338,7 @@ class BP_Group_Reviews {
 	function activity_excerpt_length( $length ) {
 		global $activities_template;
 		
-		if ( 'review' == $activities_template->activity->type )
+		if ( isset( $activities_template->activity->type ) && 'review' == $activities_template->activity->type )
 			$length = 1000;
 		
 		return $length;
