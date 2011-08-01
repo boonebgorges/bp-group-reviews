@@ -35,7 +35,7 @@
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">
 			<div>
-				<textarea name="review_content" id="review_content" value="" /><?php if ( isset( $_POST['review_content'] ) ) : ?><?php echo esc_html( $_POST['review_content'] ) ?> <?php endif; ?></textarea>
+				<textarea name="review_content" id="whats-new" value="" /><?php if ( isset( $_POST['review_content'] ) ) : ?><?php echo esc_html( $_POST['review_content'] ) ?> <?php endif; ?></textarea>
 			</div>
 		</div>
 

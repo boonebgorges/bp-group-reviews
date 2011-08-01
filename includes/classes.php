@@ -31,7 +31,7 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 				bp_core_add_message( __( "Please make sure you fill in the review, and don't forget to provide a rating!", 'bpgr' ), 'error' );
 			} else {
 				/* Auto join this user if they are not yet a member of this group */
-				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
 				if ( $rating_id = $this->post_review( array( 'content' => $_POST['review_content'], 'rating' => (int)$_POST['rating'] ) ) ) {
@@ -80,11 +80,11 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 			return false;
 	
 		// Be sure the user is a member of the group before posting.
-		if ( !is_site_admin() && !groups_is_user_member( $user_id, $group_id ) )
+		if ( !is_super_admin() && !groups_is_user_member( $user_id, $group_id ) )
 			return false;
 	
 		// Record this in activity streams
-		$activity_action = sprintf( __( '%s reviewed %s:', 'bpgr'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+		$activity_action = sprintf( __( '%s reviewed %s:', 'bpgr'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_html( $bp->groups->current_group->name ) . '</a>' );
 	
 		$rating_content = false;
 		if ( !empty( $rating ) )

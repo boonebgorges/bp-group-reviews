@@ -312,7 +312,7 @@ class BP_Group_Reviews {
 
 		// In order to account for recording errors, we will recalculate based on data
 		$raw_score = 0;
-		foreach( $group_ratings as $score ) {
+		foreach( (array)$group_ratings as $score ) {
 			$raw_score += (int)$score;
 		}
 		$how_many = count( $group_ratings );
