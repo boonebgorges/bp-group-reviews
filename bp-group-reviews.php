@@ -28,6 +28,7 @@ class BP_Group_Reviews {
 		add_filter( 'bp_has_groups', array( $this, 'groups_template_data' ) );
 		add_action( 'bp_activity_action_delete_activity', array( $this, 'delete_activity' ), 10, 2 );
 		add_action( 'bp_activity_excerpt_length', array( $this, 'activity_excerpt_length' ) );
+		add_action( 'bp_get_activity_content_body', array( $this, 'strip_star_tags' ) );
 	}
 	
 	function includes() {
@@ -341,6 +342,24 @@ class BP_Group_Reviews {
 			$length = 1000;
 		
 		return $length;
+	}
+	
+	/**
+	 * On the BPGR tab, we show the rating markup separately, so we must strip it from the
+	 * activity content.
+	 *
+	 * @package BP Group Reviews
+	 * @since 1.3
+	 *
+	 * @param str $content The content of the activity item
+	 * @return str $content The content, perhaps sans étoiles
+	 */
+	function strip_star_tags( $content ) {
+		if ( bpgr_is_group_reviews() ) {
+			$content = preg_replace( '/<span class="p\-rating">.*<\/span><\/span>/', '', $content );
+		}
+
+		return $content;
 	}
 }
 
