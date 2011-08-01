@@ -16,7 +16,7 @@
 		<h5><?php printf( __( "You rated %s on %s.", 'bpgr' ), bp_get_group_name(), bpgr_get_activity_date_recorded() ) ?></h5>
 		
 		<blockquote>
-			<?php echo wp_filter_kses( bp_get_activity_content_body() ) ?>
+			<?php echo bp_get_activity_content_body() ?>
 			
 			<div class="rest-stars">
 				<?php echo bpgr_get_review_rating_html( bpgr_get_review_rating() ) ?> 

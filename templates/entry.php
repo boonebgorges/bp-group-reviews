@@ -17,7 +17,7 @@
 
 		<?php if ( bp_activity_has_content() ) : ?>
 			<div class="activity-inner">
-				<?php echo wp_filter_kses( bp_get_activity_content_body() ) ?>
+				<?php echo bp_get_activity_content_body() ?>
 			</div>
 		<?php endif; ?>
 
