@@ -43,10 +43,14 @@ class BP_Group_Reviews_Review {
 		}
 		
 		$defaults = array(
-			'review_id'		=> false, // Can take an array or a single id
-			'user_id'		=> false, // Review author. Array or single id
-			'reviewed_group_id'	=> false, // Array or single id
-			'reviewed_user_id'	=> false  // Array or single id
+			'review_id'		=> null, // Can take an array or a single id
+			'user_id'		=> null, // Review author. Array or single id
+			'reviewed_group_id'	=> null, // Array or single id
+			'reviewed_user_id'	=> null,  // Array or single id
+			'content'		=> '',
+			'rating'		=> null,
+			'paged'			=> 1,
+			'posts_per_page'	=> 10
 		);
 		
 		$r = wp_parse_args( $args, $defaults );
@@ -57,18 +61,21 @@ class BP_Group_Reviews_Review {
 				$this->$key = $value;
 			}
 		}
-		
-		// If args are provided, set up the reviews
-		if ( $review_id || $user_id || $reviewed_group_id || $reviewed_user_id ) {
-			$this->_load_reviews();
-		}
 	}
 	
-	function _load_reviews() {		
+	/**
+	 * Get reviews, based on arguments passed to the constructor
+	 *
+	 * @package BP Group Reviews
+	 * @since 1.3
+	 */
+	function load_reviews() {		
 		$wp_query_args = array(
-		//	'post_type'	=> $this->post_type_name,
-			'post_status'	=> 'publish',
-			'suppress_filters' => 1
+			'post_type'	   => $this->post_type_name,
+			'post_status'	   => 'publish',
+			'suppress_filters' => 1,
+			'paged'		   => $this->paged,
+			'posts_per_page'   => $this->posts_per_page
 		);
 		
 		if ( $this->review_id ) {
@@ -107,7 +114,7 @@ class BP_Group_Reviews_Review {
 				$tax_query[] = array(
 					'taxonomy'	=> $this->user_tax_name,
 					'terms'		=> $this->reviewed_user_id,
-					'field'		=> 'slug',
+					'field'		=> 'name',
 					'operator'	=> 'IN'
 				);
 			}
@@ -122,7 +129,7 @@ class BP_Group_Reviews_Review {
 				$tax_query[] = array(
 					'taxonomy'	=> $this->group_tax_name,
 					'terms'		=> $this->reviewed_group_id,
-					'field'		=> 'slug',
+					'field'		=> 'name',
 					'operator'	=> 'IN'
 				);
 			}
@@ -137,6 +144,7 @@ class BP_Group_Reviews_Review {
 	}
 	
 	function get() {
+		$this->load_reviews();
 		return $this->reviews;
 	}
 	
@@ -146,6 +154,45 @@ class BP_Group_Reviews_Review {
 
 	function the_review() {
 		return $this->reviews->the_post();
+	}
+	
+	function save() {
+		if ( !empty( $this->reviewed_group_id ) ) {
+			$reviewed_group_names = array();
+			foreach ( (array)$this->reviewed_group_id as $gid ) {
+				$g = new BP_Groups_Group( $gid );
+				$reviewed_group_names[] = $g->name;
+			}
+			$reviewed_group_names = implode( ', ', $reviewed_group_names );
+		}
+		
+		$reviewed_item_names = isset( $reviewed_group_names ) ? $reviewed_group_names : ''; // todo - other item types
+		
+		$wp_insert_post_args = array(
+			'post_title'	=> sprintf( __( '%1$s reviews %2$s', 'bpgr' ), bp_core_get_user_displayname( $this->user_id ), $reviewed_item_names ),
+			'post_content'	=> $this->content,
+			'post_author'	=> $this->user_id,
+			'post_type'	=> $this->post_type_name,
+			'post_status'	=> 'publish'
+		);
+		
+		$post_id = wp_insert_post( $wp_insert_post_args );
+		
+		if ( $post_id ) {
+			// Set the reviewed item taxonomy
+			if ( isset( $this->reviewed_group_id ) ) {
+				$term_name = $this->reviewed_group_id;
+				$tax	   = $this->group_tax_name;
+			} else {
+				// todo: other types
+				return;
+			}
+			
+			wp_set_post_terms( $post_id, $term_name, $tax, true );
+			
+			// Now, save the rating data
+			update_post_meta( $post_id, 'bpgr_rating', $this->rating );
+		}
 	}
 }
 

@@ -1,5 +1,60 @@
 <?php
 
+function bpgr_has_reviews( $args = array() ) {
+	global $bp;
+	
+	if ( empty( $bp->reviews->query ) ) {
+		
+		if ( function_exists( 'bp_get_current_group_id' ) )
+			$group_id = bp_get_current_group_id();
+		else if ( isset( $bp->groups->current_group->id ) )
+			$group_id = $bp->groups->current_group->id;
+		else
+			$group_id = false;
+		
+		$defaults = array(
+			'reviewed_user_id'	=> bp_displayed_user_id(),
+			'reviewed_group_id' 	=> $group_id,
+			'reviewer_id'		=> false,
+			'review_id'		=> false,
+			'paged'			=> 1,
+			'posts_per_page'	=> 10
+		);
+		
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		$query_args = array(
+			'reviewed_user_id'	=> $reviewed_user_id,
+			'reviewed_group_id'	=> $group_id,
+			'review_id'		=> $review_id,
+			'user_id'		=> $reviewer_id,
+			'paged'			=> $paged,
+			'posts_per_page'	=> $posts_per_page
+		);
+		
+		$bp->reviews->query = new BP_Group_Reviews_Review( $query_args );
+		$bp->reviews->query->load_reviews();	
+	}
+	
+	return $bp->reviews->query->have_reviews();
+}
+
+function bpgr_the_review() {
+	global $bp;
+	
+	if ( !empty( $bp->reviews->query ) )
+		return $bp->reviews->query->the_review();
+	else
+		return false;
+}
+
+function bpgr_reset_query() {
+	global $bp;
+	
+	if ( isset( $bp->reviews->query ) )
+		unset( $bp->reviews->query );
+}
 
 function bpgr_render_review() {
 	global $bp;
@@ -195,14 +250,8 @@ function bpgr_previous_rating() {
 		return apply_filters( 'bpgr_previous_rating', $bp->group_reviews->previous_data['rating'] );
 	}
 	
-function bpgr_get_review_rating( $review_id = false ) {
-	global $activities_template;
-		
-	if ( !$review_id ) {
-		$rating = isset( $activities_template->activity->rating ) ? $activities->template->activity->rating : false;	
-	} else {
-		$rating = bp_activity_get_meta( $review_id, 'bpgr_rating' );	
-	}
+function bpgr_get_review_rating( $review_id = false ) {		
+	$rating = get_post_meta( $review_id, 'bpgr_rating', true );	
 	
 	return apply_filters( 'bpgr_review_rating', $rating, $review_id );
 }
@@ -260,5 +309,9 @@ function bpgr_directory_rating() {
 	echo bpgr_get_plugin_rating_html( $groups_template->group->rating, $groups_template->group->rating_count );
 }
 add_action( 'bp_directory_groups_actions', 'bpgr_directory_rating' );
+
+function bpgr_can_comment() {
+	return true; // todo
+}
 
 ?>

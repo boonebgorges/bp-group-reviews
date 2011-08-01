@@ -67,9 +67,9 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		global $bp;
 	
 		$defaults = array(
-			'content' => false,
-			'rating' => false,
-			'user_id' => $bp->loggedin_user->id,
+			'content'  => false,
+			'rating'   => false,
+			'user_id'  => $bp->loggedin_user->id,
 			'group_id' => $bp->groups->current_group->id
 		);
 	
@@ -82,6 +82,15 @@ class BP_Group_Reviews_Extension extends BP_Group_Extension {
 		// Be sure the user is a member of the group before posting.
 		if ( !is_super_admin() && !groups_is_user_member( $user_id, $group_id ) )
 			return false;
+	
+		// Post the review
+		$review = new BP_Group_Reviews_Review( array(
+			'user_id'	    => $user_id,
+			'reviewed_group_id' => $group_id,
+			'content' 	    => $content,
+			'rating'	    => $rating
+		) );
+		$review->save();
 	
 		// Record this in activity streams
 		$activity_action = sprintf( __( '%s reviewed %s:', 'bpgr'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_html( $bp->groups->current_group->name ) . '</a>' );

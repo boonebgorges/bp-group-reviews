@@ -13,19 +13,21 @@
 		}
 	?>
 
-	<h3 class="widgettitle"><?php echo apply_filters( 'bpgr_review_page_title', __( 'Reviews', 'bpgr' ) ) ?></h3>
-	<?php if ( bp_has_activities( 'action=review&per_page=' . $per_page . '&max=' . $max ) ) : ?>
+	<?php bpgr_reset_query() ?>
 
-		<?php if ( bpgr_is_group_reviews()  ) : ?>
+	<h3 class="widgettitle"><?php echo apply_filters( 'bpgr_review_page_title', __( 'Reviews', 'bpgr' ) ) ?></h3>
+	<?php if ( bpgr_has_reviews() ) : ?>
+
+		<?php if ( bpgr_is_group_reviews() ) : /* ?>
 			<div class="pagination no-ajax">
 				<div class="pag-count"><?php echo str_replace( 'item', 'review', bp_get_activity_pagination_count() ) ?></div>
 				<div class="pagination-links"><?php bp_activity_pagination_links() ?></div>
 			</div>
-		<?php endif; ?>
+		<?php */ endif; ?>
 
 		<ul id="activity-stream" class="activity-list item-list">
 
-			<?php while ( bp_activities() ) : bp_the_activity(); ?>
+			<?php while ( bpgr_has_reviews() ) : bpgr_the_review(); ?>
 
 				<?php include( apply_filters( 'bpgr_entry_template', BP_GROUP_REVIEWS_DIR . 'templates/entry.php' ) ) ?>
 

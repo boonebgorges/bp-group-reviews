@@ -24,7 +24,7 @@ class BP_Group_Reviews_Schema {
 	function __construct() {
 		$this->setup_vars();
 		
-		add_action( 'init', array( $this, 'register_post_type' ) );
+		add_action( 'init', array( $this, 'register_post_type' ), 1 );
 	}
 	
 	function setup_vars() {

@@ -10,20 +10,20 @@
 
 	<?php if ( bpgr_has_written_review() && !bpgr_allow_multiple_reviews() ) : ?>
 	
-	<?php if ( bp_has_activities( bpgr_user_previous_review_args() ) ) : while ( bp_activities() ) : bp_the_activity() ?> 
+	<?php if ( bpgr_has_reviews( array( 'reviewer_id' => bp_loggedin_user_id(), 'posts_per_page' => 1 ) ) ) : while ( bpgr_has_reviews() ) : bpgr_the_review() ?> 
 	
 	<div class="already-rated">	
-		<h5><?php printf( __( "You rated %s on %s.", 'bpgr' ), bp_get_group_name(), bpgr_get_activity_date_recorded() ) ?></h5>
+		<h5><?php printf( __( "You rated %s on %s.", 'bpgr' ), bp_get_group_name(), get_the_date() ) ?></h5>
 		
 		<blockquote>
-			<?php echo wp_filter_kses( bp_get_activity_content_body() ) ?>
+			<?php the_content() ?>
 			
 			<div class="rest-stars">
 				<?php echo bpgr_get_review_rating_html( bpgr_get_review_rating() ) ?> 
 			</div>
 		</blockquote>
 		
-		<p><?php _e( "To leave another review, you must delete your existing review.", 'bpgr' ) ?> <?php bp_activity_delete_link() ?></p>
+		<p><?php _e( "To leave another review, you must delete your existing review.", 'bpgr' ) ?> <?php /* todo delete link */ ?></p>
 	</div>
 	
 	<?php endwhile; endif ?>
