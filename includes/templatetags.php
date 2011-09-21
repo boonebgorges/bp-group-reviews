@@ -3,14 +3,14 @@
 
 function bpgr_render_review() {
 	global $bp;
-	
+
 	// Don't show for groups that have reviews turned off
 	if ( !BP_Group_Reviews::current_group_is_available() )
 		return;
-	
+
 	// Rendering the full span so you can avoid editing your group-header.php template
 	// If you don't like it you can call bpgr_review_html() yourself and unhook this function ;)
-		
+
 	?>
 	<span class="rating"><?php echo bpgr_review_html() ?></span>
 	<?php
@@ -19,20 +19,24 @@ add_action( 'bp_group_header_meta', 'bpgr_render_review' );
 
 function bpgr_review_html() {
 	global $bp;
-	
-	return bpgr_get_plugin_rating_html( $bp->groups->current_group->rating_avg_score, $bp->groups->current_group->rating_number );
+
+	$rating_score  = isset( $bp->groups->current_group->rating_avg_score ) ? $bp->groups->current_group->rating_avg_score : '';
+
+	$rating_number = isset( $bp->groups->current_group->rating_number ) ? $bp->groups->current_group->rating_number : '';
+
+	return bpgr_get_plugin_rating_html( $rating_score, $rating_number );
 }
 
 
 function bpgr_get_group_rating( $group_id = false ) {
 	global $bp, $groups_template;
-	
+
 	if ( empty( $group_id ) )
 		$group_id = $bp->groups->current_group->id;
-		
+
 	if ( empty( $group_id ) )
 		$group_id = $groups_template->group->id;
-	
+
 	if ( empty( $group_id ) )
 		return false;
 
@@ -141,7 +145,7 @@ function bpgr_star_img() {
 }
 	function bpgr_get_star_img() {
 		global $bp;
-		
+
 		return apply_filters( 'bpgr_star_img', $bp->group_reviews->images['star'] );
 	}
 
@@ -151,25 +155,25 @@ function bpgr_star_half_img() {
 }
 	function bpgr_get_star_half_img() {
 		global $bp;
-		
+
 		return apply_filters( 'bpgr_star_half_img', $bp->group_reviews->images['star_half'] );
 	}
-	
+
 function bpgr_star_off_img() {
 	echo bpgr_get_star_off_img();
 }
 	function bpgr_get_star_off_img() {
 		global $bp;
-		
+
 		return apply_filters( 'bpgr_star_off_img', $bp->group_reviews->images['star_off'] );
 	}
 
 function bpgr_has_previous_data() {
 	global $bp;
-	
+
 	if ( !empty( $bp->group_reviews->previous_data ) )
 		return true;
-	
+
 	return false;
 }
 
@@ -178,7 +182,7 @@ function bpgr_previous_review() {
 }
 	function bpgr_get_previous_review() {
 		global $bp;
-		
+
 		return apply_filters( 'bpgr_previous_review', $bp->group_reviews->previous_data['review_content'] );
 	}
 
@@ -188,19 +192,19 @@ function bpgr_previous_rating() {
 }
 	function bpgr_get_previous_rating() {
 		global $bp;
-		
+
 		return apply_filters( 'bpgr_previous_rating', $bp->group_reviews->previous_data['rating'] );
 	}
-	
+
 function bpgr_get_review_rating( $review_id = false ) {
 	global $activities_template;
-		
+
 	if ( !$review_id ) {
-		$rating = $activities_template->activity->rating;	
+		$rating = $activities_template->activity->rating;
 	} else {
-		$rating = bp_activity_get_meta( $review_id, 'bpgr_rating' );	
+		$rating = bp_activity_get_meta( $review_id, 'bpgr_rating' );
 	}
-	
+
 	return apply_filters( 'bpgr_review_rating', $rating, $review_id );
 }
 
@@ -228,7 +232,7 @@ function bpgr_user_previous_review_args() {
 		'item_id' => bp_get_group_id(),
 		'max' => 1
 	);
-	
+
 	return apply_filters( 'bpgr_user_previous_review_args', $args );
 }
 
@@ -237,23 +241,23 @@ function bpgr_activity_date_recorded() {
 }
 	function bpgr_get_activity_date_recorded() {
 		$date = bp_get_activity_date_recorded();
-		
+
 		$format = get_option( 'date_format' );
-		
-		return apply_filters( 'bpgr_get_activity_date_recorded', date( $format, strtotime( $date ) ), $date ); 
+
+		return apply_filters( 'bpgr_get_activity_date_recorded', date( $format, strtotime( $date ) ), $date );
 	}
 
 function bpgr_directory_rating() {
 	global $groups_template;
-	
+
 	// Don't show if the group has ratings turned off
 	if ( empty( $groups_template->group->ratings_enabled ) || 'yes' != $groups_template->group->ratings_enabled )
 		return;
-	
+
 	// Don't show if there are no ratings
 	if ( empty( $groups_template->group->rating ) || empty( $groups_template->group->rating_count ) )
 		return;
-	
+
 	echo bpgr_get_plugin_rating_html( $groups_template->group->rating, $groups_template->group->rating_count );
 }
 add_action( 'bp_directory_groups_actions', 'bpgr_directory_rating' );
