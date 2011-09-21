@@ -309,16 +309,10 @@ class BP_Group_Reviews {
 
 		// Next, remove the rating from the list of ratings
 		$group_ratings = groups_get_groupmeta( $group_id, 'bpgr_ratings' );
+
 		if ( !empty( $group_ratings[$activity_id] ) )
 			unset( $group_ratings[$activity_id] );
 		groups_update_groupmeta( $group_id, 'bpgr_ratings', $group_ratings );
-
-		// Then recalculate the total number of ratings and the average
-		// Pull the composite scores and recalculate
-		if ( !$rating = groups_get_groupmeta( $group_id, 'bpgr_rating' ) )
-			$avg_score = 0;
-		if ( !$how_many = groups_get_groupmeta( $group_id, 'bpgr_how_many_ratings' ) )
-			$how_many = 0;
 
 		// In order to account for recording errors, we will recalculate based on data
 		$raw_score = 0;
