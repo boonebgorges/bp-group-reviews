@@ -13,7 +13,6 @@
 		}
 	?>
 
-	<h3 class="widgettitle"><?php echo apply_filters( 'bpgr_review_page_title', __( 'Reviews', 'bpgr' ) ) ?></h3>
 	<?php if ( bp_has_activities( 'action=review&per_page=' . $per_page . '&max=' . $max ) ) : ?>
 
 		<?php if ( bpgr_is_group_reviews()  ) : ?>
