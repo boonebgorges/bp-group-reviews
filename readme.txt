@@ -2,9 +2,9 @@
 Contributors: boonebgorges, apeatling 
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, group, groups, review, rating, star
-Requires at least: WP 3.0, BP 1.2.5
-Tested up to: WP 3.2.1, BP 1.5
-Stable tag: 1.3
+Requires at least: WP 3.2, BP 1.5
+Tested up to: WP 3.2.1, BP 1.5.1
+Stable tag: 1.3.1
 
 Adds a reviews/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 
