@@ -42,6 +42,10 @@ Let me know and I'll put it in there for you.
 
 == Changelog ==
 
+= 1.3.1 =
+* Increased compatibility with BP 1.6 canonical redirects
+* Display the content of a failed review in the post box if returned by an error
+
 = 1.3 =
 * BP 1.5 Compatibility
 
