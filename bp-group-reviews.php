@@ -23,7 +23,7 @@ class BP_Group_Reviews {
 		add_action( 'wp_print_scripts', array( $this, 'load_js' ) );
 		add_action( 'wp_head', array( $this, 'maybe_previous_data' ), 999 );
 		add_action( 'wp_print_styles', array( $this, 'load_styles' ) );
-		add_action( 'wp', array( $this, 'grab_cookie' ) );
+		add_action( 'bp_actions', array( $this, 'grab_cookie' ), 1 );
 		add_filter( 'bp_has_activities', array( $this, 'activities_template_data' ) );
 		add_filter( 'bp_has_groups', array( $this, 'groups_template_data' ) );
 
@@ -114,15 +114,12 @@ class BP_Group_Reviews {
 
 	function grab_cookie() {
 		global $bp;
-
+		
 		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) ) {
-			if ( function_exists( 'imap_base64' ) )
-				$bp->group_reviews->previous_data = maybe_unserialize( imap_base64 ( $_COOKIE['bpgr-data'] ) );
-			else if ( function_exists( 'base64_encode' ) )
-				$bp->group_reviews->previous_data = maybe_unserialize( base64_encode ( $_COOKIE['bpgr-data'] ) );
+			$bp->group_reviews->previous_data = maybe_unserialize( json_decode( stripslashes( $_COOKIE['bpgr-data'] ) ) );
 		}
 
-		@setcookie( 'bpgr-data', false, time() - 1000, COOKIEPATH );
+		setcookie( 'bpgr-data', false, time() - 1000, COOKIEPATH );
 	}
 
 	/**

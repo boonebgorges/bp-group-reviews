@@ -1,4 +1,6 @@
-<form action="" method="post" id="whats-new-form" name="whats-new-form" class="review-form">
+<?php global $bp ?>
+
+<form action="<?php echo trailingslashit( bp_get_group_permalink( groups_get_current_group() ) . $bp->group_reviews->slug ) ?>" method="post" id="whats-new-form" name="whats-new-form" class="review-form">
 
 	<?php do_action( 'bp_before_activity_post_form' ) ?>
 
@@ -35,7 +37,7 @@
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">
 			<div>
-				<textarea name="review_content" id="whats-new" value="" /><?php if ( isset( $_POST['review_content'] ) ) : ?><?php echo esc_html( $_POST['review_content'] ) ?> <?php endif; ?></textarea>
+				<textarea name="review_content" id="whats-new" value="" /><?php if ( !empty( $bp->group_reviews->previous_data->review_content ) ) : ?><?php echo esc_html(  $bp->group_reviews->previous_data->review_content ) ?> <?php endif; ?></textarea>
 			</div>
 		</div>
 
