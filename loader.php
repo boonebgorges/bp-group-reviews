@@ -4,7 +4,7 @@ Plugin Name: BP Group Reviews
 Author: boonebgorges
 Author URL: http://boonebgorges.com
 Description: Adds a review/rating section to BuddyPress groups. As seen on buddypress.org/extend/plugins
-Version: 1.3.1
+Version: 1.3.2
 */
 
 define( 'BP_GROUP_REVIEWS_VERSION', '1.3.1' );
