@@ -22,7 +22,7 @@ class BP_Group_Reviews_Upgrade {
 	function upgrade_1_02() {
 		global $bp, $wpdb;
 		
-		$sql = $wpdb->prepare( "SELECT group_id, meta_value FROM {$bp->groups->table_name_groupmeta} WHERE meta_key = 'bpgr_rating'" );
+		$sql = $wpdb->prepare( "SELECT group_id, meta_value FROM {$bp->groups->table_name_groupmeta} WHERE meta_key = %s", 'bpgr_rating' );
 		
 		$old_ratings = $wpdb->get_results( $sql );
 		

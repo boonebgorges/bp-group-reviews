@@ -236,6 +236,83 @@ function bpgr_user_previous_review_args() {
 	return apply_filters( 'bpgr_user_previous_review_args', $args );
 }
 
+/**
+ * Avoids the javascript trick and replaces the read more class
+ *
+ * For some reason, when clicking on Read more from the review
+ * It was also opening the activity in the list of reviews
+ * using this filter removed this behavior
+ *
+ * @param string $review the content of the activity
+ * @return string the content of the review (with new class for the read more link)
+ * @author imath
+ */
+function bpgr_current_group_filter_review_content( $review = '' ) {
+	$review = str_replace( 'activity-read-more', 'already-rated-read-more', $review );
+	return $review;
+}
+
+
+/**
+ * This function replaces the activity loop that was used to show the review a user posted before the list of reviews
+ *
+ * Using the loop at this place will break the html and delete link in case of pagination (acpage=2 or 3 and so on)
+ * Using bp activity get and simulating $activities_template with its results avoids the pagination trouble.
+ *
+ * @uses bp_loggedin_user_id() to get the current user id
+ * @uses bp_get_group_id() to get the current group id
+ * @uses bp_activity_get() to avoids the loop and get the review the user posted for the current group
+ * @uses bp_get_group_name() to get the current group name
+ * @uses bpgr_get_activity_date_recorded() to get the date of the review
+ * @uses bp_get_activity_content_body() to get the content of the review (activity)
+ * @uses bp_get_activity_id() to get the activity id
+ * @uses bpgr_get_review_rating() to get the rating for this review
+ * @uses bpgr_get_review_rating_html() to build some stars
+ * @uses bp_activity_delete_link() to get the delete link for the activity
+ * @return string the html output
+ * @author imath
+ */
+function bpgr_current_group_user_review() {
+	global $activities_template;
+
+	$args = array( 'max' => 1, 'filter' => array( 
+		'user_id' => bp_loggedin_user_id(),
+		'action' => 'review',
+		'primary_id' => bp_get_group_id()
+	) );
+
+	$activities = bp_activity_get( $args );
+
+	if( empty( $activities['activities'] ) )
+		return false;
+
+	if( empty( $activities_template  ) )
+		$activities_template = new stdClass();
+
+	$activities_template->activities = $activities['activities'];
+	$activities_template->activity = $activities['activities'][0];
+
+	add_filter( 'bp_get_activity_content_body', 'bpgr_current_group_filter_review_content', 10, 1 );
+	?>
+	<div class="already-rated">	
+		<h5><?php printf( __( "You rated %s on %s.", 'bpgr' ), bp_get_group_name(), bpgr_get_activity_date_recorded() ) ?></h5>
+		
+		<blockquote>
+			<div id="review-content"><?php echo bp_get_activity_content_body() ?></div>
+			
+			<div class="rest-stars">
+				<?php echo bpgr_get_review_rating_html( bpgr_get_review_rating( bp_get_activity_id() ) ) ?> 
+			</div>
+		</blockquote>
+		
+		<p><?php _e( "To leave another review, you must delete your existing review.", 'bpgr' ) ?> <?php bp_activity_delete_link() ?></p>
+	</div>
+	<?php
+	$activities_template = false;
+	remove_filter( 'bp_get_activity_content_body', 'bpgr_current_group_filter_review_content', 10, 1 );
+}
+
+
 function bpgr_activity_date_recorded() {
 	echo bpgr_get_activity_date_recorded();
 }
