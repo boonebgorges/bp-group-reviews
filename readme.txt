@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, group, groups, review, rating, star
 Requires at least: WP 3.2, BP 1.5
 Tested up to: WP 3.2.1, BP 1.5.1
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Adds a reviews/rating section to BuddyPress groups. As seen on the buddypress.org/extend/plugins
 
@@ -42,6 +42,12 @@ Let me know and I'll put it in there for you.
 
 == Changelog ==
 
+= 1.3.2 =
+* BP 1.7 compatibility
+* corrects a bug in the user review (above the list) if a new page is loaded (?acpage=2 and so on)
+* changes the way activity-read-more is replaced by already-rated-read-more
+* changes .live for .on
+ 
 = 1.3.1 =
 * Increased compatibility with BP 1.6 canonical redirects
 * Display the content of a failed review in the post box if returned by an error

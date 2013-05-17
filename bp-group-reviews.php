@@ -83,7 +83,9 @@ class BP_Group_Reviews {
 	function setup_globals() {
 		global $bp;
 
+		$bp->group_reviews = new stdClass;
 		$bp->group_reviews->slug = BP_GROUP_REVIEWS_SLUG;
+		$bp->group_reviews->images = array();
 
 		$image_types = array(
 			'star',
@@ -114,7 +116,7 @@ class BP_Group_Reviews {
 
 	function grab_cookie() {
 		global $bp;
-		
+
 		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) ) {
 			$bp->group_reviews->previous_data = maybe_unserialize( json_decode( stripslashes( $_COOKIE['bpgr-data'] ) ) );
 		}
@@ -144,7 +146,7 @@ class BP_Group_Reviews {
 		if ( empty( $activity_ids ) )
 			return $has_activities;
 
-		$sql = apply_filters( 'bpgr_activities_data_sql', $wpdb->prepare( "SELECT activity_id, meta_value AS rating FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids}) AND meta_key = 'bpgr_rating'" ) );
+		$sql = apply_filters( 'bpgr_activities_data_sql', "SELECT activity_id, meta_value AS rating FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids}) AND meta_key = 'bpgr_rating'" );
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 
 		// Arrange the results in a properly-keyed array
@@ -191,7 +193,7 @@ class BP_Group_Reviews {
 		if ( empty( $group_ids ) )
 			return $has_groups;
 
-		$sql = apply_filters( 'bpgr_groups_data_sql', $wpdb->prepare( "
+		$sql = apply_filters( 'bpgr_groups_data_sql', "
 			SELECT m1.group_id, m1.meta_value AS rating, m2.meta_value AS rating_count, m3.meta_value AS ratings_enabled
 			FROM {$bp->groups->table_name_groupmeta} m1
 			LEFT JOIN {$bp->groups->table_name_groupmeta} m2 ON (m1.group_id = m2.group_id)
@@ -200,7 +202,7 @@ class BP_Group_Reviews {
 			AND m1.meta_key = 'bpgr_rating'
 			AND m2.meta_key = 'bpgr_how_many_ratings'
 			AND m3.meta_key = 'bpgr_is_reviewable'"
-		) );
+		);
 		$ratings_raw = $wpdb->get_results( $sql, ARRAY_A );
 
 		// Arrange the results in a properly-keyed array
