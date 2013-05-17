@@ -85,6 +85,7 @@ class BP_Group_Reviews {
 
 		$bp->group_reviews = new stdClass;
 		$bp->group_reviews->slug = BP_GROUP_REVIEWS_SLUG;
+		$bp->group_reviews->images = array();
 
 		$image_types = array(
 			'star',
