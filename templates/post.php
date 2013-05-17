@@ -11,24 +11,8 @@
 	</div>
 
 	<?php if ( bpgr_has_written_review() && !bpgr_allow_multiple_reviews() ) : ?>
-	
-	<?php if ( bp_has_activities( bpgr_user_previous_review_args() ) ) : while ( bp_activities() ) : bp_the_activity() ?> 
-	
-	<div class="already-rated">	
-		<h5><?php printf( __( "You rated %s on %s.", 'bpgr' ), bp_get_group_name(), bpgr_get_activity_date_recorded() ) ?></h5>
-		
-		<blockquote>
-			<?php echo bp_get_activity_content_body() ?>
-			
-			<div class="rest-stars">
-				<?php echo bpgr_get_review_rating_html( bpgr_get_review_rating() ) ?> 
-			</div>
-		</blockquote>
-		
-		<p><?php _e( "To leave another review, you must delete your existing review.", 'bpgr' ) ?> <?php bp_activity_delete_link() ?></p>
-	</div>
-	
-	<?php endwhile; endif ?>
+
+		<?php bpgr_current_group_user_review() ?>
 
 	<?php else : ?>
 
