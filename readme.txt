@@ -42,6 +42,12 @@ Let me know and I'll put it in there for you.
 
 == Changelog ==
 
+= 1.3.2 =
+* BP 1.7 compatibility
+* corrects a bug in the user review (above the list) if a new page is loaded (?acpage=2 and so on)
+* changes the way activity-read-more is replaced by already-rated-read-more
+* changes .live for .on
+ 
 = 1.3.1 =
 * Increased compatibility with BP 1.6 canonical redirects
 * Display the content of a failed review in the post box if returned by an error
