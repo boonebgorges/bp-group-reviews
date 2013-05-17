@@ -116,7 +116,7 @@ class BP_Group_Reviews {
 
 	function grab_cookie() {
 		global $bp;
-		
+
 		if ( empty( $bp->group_reviews->previous_data ) && isset( $_COOKIE['bpgr-data'] ) ) {
 			$bp->group_reviews->previous_data = maybe_unserialize( json_decode( stripslashes( $_COOKIE['bpgr-data'] ) ) );
 		}

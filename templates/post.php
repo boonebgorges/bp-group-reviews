@@ -43,9 +43,9 @@
 	<input type="hidden" name="rating" id="rating" value="0" />
 
 	<?php wp_nonce_field( 'review_submit' ); ?>
-	
+
 	<?php endif ?>
-	
+
 	<?php do_action( 'bp_after_activity_post_form' ) ?>
-	
+
 </form><!-- #whats-new-form -->
